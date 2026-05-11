@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,721 +6,388 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard OPX — Relatório Semanal</title>
 <style>
-  :root {
-    --bg: #f8f7f4;
-    --surface: #ffffff;
-    --surface2: #f1f0ec;
-    --border: rgba(0,0,0,0.10);
-    --border-strong: rgba(0,0,0,0.18);
-    --text: #1a1a18;
-    --text2: #5a5a56;
-    --text3: #9a9a94;
-    --green: #2d7d46;
-    --green-bg: #eaf5ee;
-    --amber: #92600a;
-    --amber-bg: #fef3dc;
-    --red: #b02020;
-    --red-bg: #fdeaea;
-    --blue: #1a5fa8;
-    --blue-bg: #e8f1fb;
-    --radius: 10px;
-    --radius-sm: 6px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  header {
-    background: var(--surface);
-    border-bottom: 0.5px solid var(--border);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--amber);
-  }
-
-  .header-meta {
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .layout {
-    display: flex;
-    min-height: calc(100vh - 56px);
-  }
-
-  .sidebar {
-    width: 220px;
-    flex-shrink: 0;
-    background: var(--surface);
-    border-right: 0.5px solid var(--border);
-    padding: 1.5rem 1rem;
-    position: sticky;
-    top: 56px;
-    height: calc(100vh - 56px);
-    overflow-y: auto;
-  }
-
-  .sidebar-section {
-    margin-bottom: 1.5rem;
-  }
-
-  .sidebar-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0 8px;
-    margin-bottom: 4px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 8px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: 13px;
-    color: var(--text2);
-    transition: all 0.12s;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-  }
-
-  .nav-item:hover { background: var(--surface2); color: var(--text); }
-  .nav-item.active { background: var(--blue-bg); color: var(--blue); font-weight: 500; }
-
-  .nav-icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-
-  .nav-item.active .nav-icon { opacity: 1; }
-
-  .nav-badge {
-    margin-left: auto;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 6px;
-    border-radius: 99px;
-  }
-
-  .nb-red { background: var(--red-bg); color: var(--red); }
-  .nb-amber { background: var(--amber-bg); color: var(--amber); }
-  .nb-green { background: var(--green-bg); color: var(--green); }
-
-  .main {
-    flex: 1;
-    padding: 2rem;
-    max-width: 900px;
-  }
-
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .page-title {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .page-sub {
-    font-size: 13px;
-    color: var(--text3);
-    margin-bottom: 1.5rem;
-  }
-
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 2rem;
-  }
-
-  .metric {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-  }
-
-  .metric-label {
-    font-size: 11px;
-    color: var(--text3);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 6px;
-  }
-
-  .metric-value {
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
-
-  .metric-value.green { color: var(--green); }
-  .metric-value.amber { color: var(--amber); }
-  .metric-value.red { color: var(--red); }
-  .metric-value.small { font-size: 17px; }
-
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin: 2rem 0 10px;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    margin-bottom: 12px;
-  }
-
-  .card.blocked {
-    border-left: 3px solid var(--red);
-    border-radius: 0 var(--radius) var(--radius) 0;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .card-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
-
-  .card-sub {
-    font-size: 12px;
-    color: var(--text3);
-    margin-top: 2px;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 99px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .b-green { background: var(--green-bg); color: var(--green); }
-  .b-amber { background: var(--amber-bg); color: var(--amber); }
-  .b-red { background: var(--red-bg); color: var(--red); }
-  .b-blue { background: var(--blue-bg); color: var(--blue); }
-  .b-gray { background: var(--surface2); color: var(--text2); }
-
-  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-  .dg { background: var(--green); }
-  .da { background: var(--amber); }
-  .dr { background: var(--red); }
-
-  .phase {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 0.5px solid var(--border);
-  }
-
-  .phase-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-  }
-
-  .actions { display: flex; flex-direction: column; gap: 2px; }
-
-  .action {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 6px 8px;
-    border-radius: var(--radius-sm);
-    transition: background 0.1s;
-  }
-
-  .action:hover { background: var(--bg); }
-
-  .ai {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-    font-size: 10px;
-    font-weight: 700;
-  }
-
-  .ai-done { background: var(--green-bg); color: var(--green); }
-  .ai-doing { background: var(--amber-bg); color: var(--amber); }
-  .ai-next { background: var(--surface2); color: var(--text3); }
-  .ai-blocked { background: var(--red-bg); color: var(--red); }
-
-  .action-body { flex: 1; }
-  .action-text { font-size: 13px; color: var(--text); line-height: 1.4; }
-  .action-text.muted { color: var(--text2); }
-  .action-note { font-size: 11px; color: var(--text3); margin-top: 1px; display: block; }
-
-  /* Gantt */
-  .gantt-wrap { overflow-x: auto; margin-bottom: 1rem; }
-
-  .gantt-grid {
-    min-width: 680px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .gantt-group-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 12px 0 4px 160px;
-  }
-
-  .gantt-row {
-    display: grid;
-    grid-template-columns: 160px repeat(12, 1fr);
-    align-items: center;
-    gap: 0;
-  }
-
-  .gantt-label {
-    font-size: 12px;
-    color: var(--text2);
-    text-align: right;
-    padding-right: 12px;
-    line-height: 1.3;
-  }
-
-  .gantt-cell { height: 22px; position: relative; }
-
-  .gantt-block {
-    position: absolute;
-    top: 3px;
-    bottom: 3px;
-    left: 1px;
-    right: 1px;
-    border-radius: 4px;
-  }
-
-  .gb-doing { background: var(--amber-bg); border: 0.5px solid var(--amber); }
-  .gb-planned { background: var(--surface2); border: 0.5px solid var(--border-strong); }
-  .gb-blocked { background: var(--red-bg); border: 0.5px solid var(--red); }
-
-  .gb-start { border-radius: 4px 0 0 4px; right: 0; }
-  .gb-mid { border-radius: 0; left: 0; right: 0; }
-  .gb-end { border-radius: 0 4px 4px 0; left: 0; }
-  .gb-solo { border-radius: 4px; }
-
-  .month-header {
-    display: grid;
-    grid-template-columns: 160px repeat(12, 1fr);
-    margin-bottom: 8px;
-  }
-
-  .month-cell {
-    font-size: 11px;
-    color: var(--text3);
-    text-align: center;
-    font-weight: 500;
-  }
-
-  .month-cell.current { color: var(--blue); font-weight: 700; }
-
-  .legend {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 12px;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--text2);
-  }
-
-  .legend-box {
-    width: 16px;
-    height: 10px;
-    border-radius: 3px;
-  }
-
-  /* Riscos */
-  .risk-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .risk-item:last-child { border-bottom: none; }
-
-  .risk-icon-wrap {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 16px;
-  }
-
-  .ri-amber { background: var(--amber-bg); }
-  .ri-red { background: var(--red-bg); }
-  .ri-blue { background: var(--blue-bg); }
-
-  .risk-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-  .risk-desc { font-size: 13px; color: var(--text2); }
-
-  /* Roadmap timeline */
-  .roadmap {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-    padding-left: 28px;
-  }
-
-  .roadmap::before {
-    content: '';
-    position: absolute;
-    left: 9px;
-    top: 10px;
-    bottom: 10px;
-    width: 1px;
-    background: var(--border-strong);
-  }
-
-  .roadmap-item {
-    position: relative;
-    padding: 10px 0 10px 16px;
-  }
-
-  .roadmap-dot {
-    position: absolute;
-    left: -19px;
-    top: 14px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid var(--surface);
-  }
-
-  .rd-done { background: var(--green); }
-  .rd-doing { background: var(--amber); }
-  .rd-next { background: var(--border-strong); }
-
-  .roadmap-date { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.04em; }
-  .roadmap-title { font-size: 14px; font-weight: 600; color: var(--text); margin: 2px 0; }
-  .roadmap-desc { font-size: 12px; color: var(--text2); }
-
-  /* Atualizado badge */
-  .updated-at {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    color: var(--text3);
-    background: var(--surface2);
-    padding: 3px 8px;
-    border-radius: 99px;
-    margin-left: 10px;
-    vertical-align: middle;
-  }
-
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { padding: 1rem; }
-    header { padding: 0 1rem; }
-  }
+:root{--bg:#f8f7f4;--surface:#ffffff;--surface2:#f1f0ec;--border:rgba(0,0,0,0.10);--border-strong:rgba(0,0,0,0.18);--text:#1a1a18;--text2:#5a5a56;--text3:#9a9a94;--green:#2d7d46;--green-bg:#eaf5ee;--amber:#92600a;--amber-bg:#fef3dc;--red:#b02020;--red-bg:#fdeaea;--blue:#1a5fa8;--blue-bg:#e8f1fb;--purple:#6b35b0;--purple-bg:#f0eafa;--radius:10px;--radius-sm:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
+header{background:var(--surface);border-bottom:0.5px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.logo{font-size:15px;font-weight:600;letter-spacing:-0.01em;display:flex;align-items:center;gap:10px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.header-meta{font-size:12px;color:var(--text3)}
+.layout{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:0.5px solid var(--border);padding:1.5rem 1rem;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sidebar-section{margin-bottom:1.5rem}
+.sidebar-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;padding:0 8px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.12s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--blue-bg);color:var(--blue);font-weight:500}
+.nav-badge{margin-left:auto;font-size:10px;font-weight:600;padding:1px 6px;border-radius:99px}
+.nb-red{background:var(--red-bg);color:var(--red)}.nb-amber{background:var(--amber-bg);color:var(--amber)}.nb-green{background:var(--green-bg);color:var(--green)}.nb-blue{background:var(--blue-bg);color:var(--blue)}
+.main{flex:1;padding:2rem;max-width:900px}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:22px;font-weight:600;letter-spacing:-0.02em;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--text3);margin-bottom:1.5rem}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:2rem}
+.metric{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.metric-label{font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px}
+.metric-value{font-size:26px;font-weight:600;letter-spacing:-0.02em}
+.mv-g{color:var(--green)}.mv-a{color:var(--amber)}.mv-r{color:var(--red)}.mv-sm{font-size:17px}
+.sec{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin:2rem 0 10px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:12px}
+.card.blocked{border-left:3px solid var(--red);border-radius:0 var(--radius) var(--radius) 0}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.card-title{font-size:15px;font-weight:600;letter-spacing:-0.01em}
+.card-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.b-g{background:var(--green-bg);color:var(--green)}.b-a{background:var(--amber-bg);color:var(--amber)}
+.b-r{background:var(--red-bg);color:var(--red)}.b-b{background:var(--blue-bg);color:var(--blue)}
+.b-gray{background:var(--surface2);color:var(--text2)}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.dg{background:var(--green)}.da{background:var(--amber)}.dr{background:var(--red)}
+.phase{margin-top:14px;padding-top:14px;border-top:0.5px solid var(--border)}
+.phase-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}
+.actions{display:flex;flex-direction:column;gap:2px}
+.action{display:flex;align-items:flex-start;gap:10px;padding:6px 8px;border-radius:var(--radius-sm);transition:background 0.1s}
+.action:hover{background:var(--bg)}
+.ai{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:10px;font-weight:700}
+.ai-done{background:var(--green-bg);color:var(--green)}.ai-doing{background:var(--amber-bg);color:var(--amber)}
+.ai-next{background:var(--surface2);color:var(--text3)}.ai-blocked{background:var(--red-bg);color:var(--red)}
+.ab{flex:1}
+.at{font-size:13px;color:var(--text);line-height:1.4}
+.at.muted{color:var(--text2)}
+.am{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;align-items:center}
+.mo{font-size:11px;color:var(--text2);background:var(--surface2);padding:2px 8px;border-radius:99px}
+.md{font-size:11px;padding:2px 8px;border-radius:99px}
+.md-ok{color:var(--green);background:var(--green-bg)}.md-w{color:var(--amber);background:var(--amber-bg)}
+.md-l{color:var(--red);background:var(--red-bg)}.md-n{color:var(--text2);background:var(--surface2)}
+/* FILTER */
+.filter-bar{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.filter-btn{padding:5px 14px;border-radius:99px;border:0.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all 0.12s;font-family:inherit}
+.filter-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+.filter-btn:hover:not(.active){background:var(--surface2)}
+/* SEMANA */
+.week-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.wch{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wct{font-size:14px;font-weight:600}
+.wcs{font-size:12px;color:var(--text3);margin-top:1px}
+.week-tasks{padding:0 16px 14px;display:flex;flex-direction:column;gap:6px}
+.wt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;background:var(--bg);cursor:pointer;transition:all 0.12s;border:0.5px solid transparent}
+.wt:hover{border-color:var(--border);background:var(--surface2)}
+.wt.done{background:var(--green-bg);border-color:#c8e8d0;cursor:default}
+.wt.done .wt-text{text-decoration:line-through;color:var(--text3)}
+.wt-chk{width:20px;height:20px;border-radius:6px;border:1.5px solid #ccc;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all 0.12s;background:#fff;font-size:11px;font-weight:700;color:transparent}
+.wt.done .wt-chk{background:var(--green);border-color:var(--green);color:#fff}
+.wt-body{flex:1}
+.wt-text{font-size:13px;font-weight:500;line-height:1.4}
+.wt-meta{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.wt-note{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.wt-done-date{font-size:11px;color:var(--green);background:var(--green-bg);padding:2px 8px;border-radius:99px;margin-top:4px;display:none}
+.wt.done .wt-done-date{display:inline-flex}
+.wsum{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg);border-top:0.5px solid var(--border);font-size:12px;color:var(--text2)}
+.pbar{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.pfill{height:100%;background:var(--green);border-radius:99px;transition:width 0.3s}
+/* MARCOS */
+.marco-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
+.marco-hdr{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background 0.12s;user-select:none}
+.marco-hdr:hover{background:var(--bg)}
+.marco-arrow{width:20px;height:20px;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:transform 0.2s;font-size:11px;flex-shrink:0}
+.marco-arrow.open{transform:rotate(90deg)}
+.marco-info{flex:1}
+.marco-dl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em}
+.marco-ttl{font-size:14px;font-weight:600;margin-top:1px}
+.marco-body{display:none;padding:0 16px 14px;border-top:0.5px solid var(--border)}
+.marco-body.open{display:block}
+.mt-item{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-radius:var(--radius-sm)}
+.mt-item:hover{background:var(--bg)}
+.mt-body{flex:1}
+.mt-text{font-size:13px}
+.mt-meta{display:flex;gap:6px;margin-top:3px;flex-wrap:wrap}
+/* GANTT */
+.gantt-wrap{overflow-x:auto}
+.gr{display:grid;grid-template-columns:160px repeat(12,1fr);align-items:center;margin-bottom:4px;min-width:640px}
+.gl{font-size:12px;color:var(--text2);text-align:right;padding-right:10px;line-height:1.3}
+.gc{height:20px;position:relative}
+.gb{position:absolute;top:3px;bottom:3px;left:1px;right:1px;border-radius:4px}
+.gb-d{background:var(--amber-bg);border:0.5px solid var(--amber)}
+.gb-p{background:var(--surface2);border:0.5px solid var(--border-strong)}
+.gb-b{background:var(--red-bg);border:0.5px solid var(--red)}
+.gb-s{border-radius:4px 0 0 4px;right:0}.gb-m{border-radius:0;left:0;right:0}.gb-e{border-radius:0 4px 4px 0;left:0}.gb-o{border-radius:4px}
+.mh{display:grid;grid-template-columns:160px repeat(12,1fr);margin-bottom:6px;min-width:640px}
+.mc{font-size:11px;color:var(--text3);text-align:center;font-weight:500}
+.mc.cur{color:var(--blue);font-weight:700}
+.gg-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;margin:12px 0 4px;text-align:right;width:160px}
+.legend{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.lb{width:14px;height:8px;border-radius:3px}
+/* RISCOS */
+.risk-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--border)}
+.risk-item:last-child{border-bottom:none}
+.ri-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.ri-a{background:var(--amber-bg)}.ri-r{background:var(--red-bg)}.ri-b{background:var(--blue-bg)}
+.rt strong{font-size:14px;font-weight:600;display:block;margin-bottom:2px}
+.rt span{font-size:13px;color:var(--text2)}
+/* ROADMAP */
+.roadmap{display:flex;flex-direction:column;position:relative;padding-left:28px}
+.roadmap::before{content:'';position:absolute;left:9px;top:10px;bottom:10px;width:1px;background:var(--border-strong)}
+.rm-item{position:relative;padding:8px 0 8px 16px}
+.rm-dot{position:absolute;left:-19px;top:13px;width:10px;height:10px;border-radius:50%;border:2px solid var(--surface)}
+.rd-done{background:var(--green)}.rd-doing{background:var(--amber)}.rd-next{background:#ccc}
+.rm-date{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em}
+.rm-title{font-size:14px;font-weight:600;margin:2px 0}
+.rm-desc{font-size:12px;color:var(--text2)}
+/* RESUMO */
+#resumo-feito{min-height:48px}
+@media(max-width:768px){.sidebar{display:none}.main{padding:1rem}header{padding:0 1rem}}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="logo">
-    <div class="logo-dot"></div>
-    Dashboard OPX
-  </div>
-  <div class="header-meta">Atualizado em <span id="update-date"></span></div>
+  <div class="logo"><div class="logo-dot"></div>Dashboard OPX</div>
+  <div class="header-meta">Atualizado em <span id="upd-date"></span></div>
 </header>
-
 <div class="layout">
   <aside class="sidebar">
     <div class="sidebar-section">
+      <div class="sidebar-label">Geral</div>
+      <button class="nav-item active" onclick="showPage('semana',this)">📋 Semana atual<span class="nav-badge nb-amber">8</span></button>
+      <button class="nav-item" onclick="showPage('marcos',this)">📅 Marcos mensais</button>
+      <button class="nav-item" onclick="showPage('projetos',this)">🗂️ Projetos</button>
+    </div>
+    <div class="sidebar-section">
       <div class="sidebar-label">PSG</div>
-      <button class="nav-item active" onclick="showPage('psg-maq', this)">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h12M8 2v12M4 4l8 8M12 4l-8 8" stroke-linecap="round"/></svg>
-        Máquinas e peças
-        <span class="nav-badge nb-amber">3</span>
-      </button>
-      <button class="nav-item" onclick="showPage('psg-bopp', this)">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M2 6h12M6 6v8" stroke-linecap="round"/></svg>
-        BOPP
-        <span class="nav-badge nb-green">0</span>
-      </button>
+      <button class="nav-item" onclick="showPage('psg-maq',this)">🔧 Máquinas e peças<span class="nav-badge nb-amber">3</span></button>
+      <button class="nav-item" onclick="showPage('psg-bopp',this)">📦 BOPP<span class="nav-badge nb-amber">1</span></button>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Dominus</div>
-      <button class="nav-item" onclick="showPage('dominus', this)">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.22 3.22l1.42 1.42M11.36 11.36l1.42 1.42M3.22 12.78l1.42-1.42M11.36 4.64l1.42-1.42" stroke-linecap="round"/></svg>
-        Projetos
-        <span class="nav-badge nb-red">1</span>
-      </button>
+      <button class="nav-item" onclick="showPage('dominus',this)">⚙️ Projetos<span class="nav-badge nb-red">1</span></button>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Visão geral</div>
-      <button class="nav-item" onclick="showPage('cronograma', this)">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12" stroke-linecap="round"/></svg>
-        Cronograma geral
-      </button>
+      <button class="nav-item" onclick="showPage('cronograma',this)">📊 Cronograma</button>
     </div>
   </aside>
-
   <main class="main">
 
-    <!-- PSG MÁQUINAS -->
-    <div id="page-psg-maq" class="page active">
+    <!-- SEMANA -->
+    <div id="page-semana" class="page active">
+      <div class="page-title">Semana atual</div>
+      <div class="page-sub">06/05 – 10/05/2026 · Clique para marcar como concluído — salva a data automaticamente</div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterWeek('all',this)">Todos</button>
+        <button class="filter-btn" onclick="filterWeek('psg',this)">PSG</button>
+        <button class="filter-btn" onclick="filterWeek('dominus',this)">Dominus</button>
+      </div>
+      <div class="sec">Planejado para esta semana</div>
+      <div class="week-card" data-client="psg">
+        <div class="wch"><div><div class="wct">PSG — Máquinas e peças</div><div class="wcs">3 tarefas planejadas</div></div><span class="badge b-b">PSG</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Acompanhar execução do piloto de plano de produção</div><div class="wt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 Até 15/05</span></div><span class="wt-note">Torno e fresadora sem interrupções</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Verificar andamento do treinamento dos Gustavos</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">Vincadeira, Canteadeira e Furador em foco</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Conferir contagem física de peças críticas de importação</div><div class="wt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 Até 15/05</span></div><span class="wt-note">Bater estoque físico x sistema</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-psg">0 de 3 concluídas</span><div class="pbar"><div class="pfill" id="bar-psg" style="width:0%"></div></div></div>
+      </div>
+      <div class="week-card" data-client="dominus">
+        <div class="wch"><div><div class="wct">Dominus</div><div class="wcs">3 tarefas planejadas</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Treinar Felipe na programação semanal dos CNC</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Escrever descrição ponto a ponto — Eletroerosão</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 12/05</span></div><span class="wt-note">Primeiro dos 4 processos do Wellington</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir responsável pelo controle de velocidade das máquinas</div><div class="wt-meta"><span class="mo">👤 Consultor + Thiago</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">⚠️ Bloqueado — Felipe ou Thiago assume?</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-dom">0 de 3 concluídas</span><div class="pbar"><div class="pfill" id="bar-dom" style="width:0%"></div></div></div>
+      </div>
+      <div class="week-card" data-client="psg">
+        <div class="wch"><div><div class="wct">PSG — BOPP</div><div class="wcs">2 tarefas planejadas</div></div><span class="badge b-b">PSG</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir formato de visualização dos custos com Leandro</div><div class="wt-meta"><span class="mo">👤 Kauê + Leandro</span><span class="md md-l">📅 Hoje — 11/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Iniciar levantamento dos custos por produto</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-bopp">0 de 2 concluídas</span><div class="pbar"><div class="pfill" id="bar-bopp" style="width:0%"></div></div></div>
+      </div>
+      <div class="week-card" data-client="psg">
+        <div class="wch"><div><div class="wct">PSG — Automação RH</div><div class="wcs">1 tarefa planejada</div></div><span class="badge b-b">PSG</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Esboço do projeto de automação de RH</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><span class="wt-note">Requisitos: controle de férias, pagamentos e comissões</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-rh">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-rh" style="width:0%"></div></div></div>
+      </div>
+      <div class="week-card" data-client="psg">
+        <div class="wch"><div><div class="wct">PSG — Agente PCP</div><div class="wcs">1 tarefa planejada</div></div><span class="badge b-b">PSG</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Esboço do projeto do agente de PCP</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><span class="wt-note">Layouts BOPP nas máquinas grandes + fila de produção máq. grandes e pequenas</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-pcp">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-pcp" style="width:0%"></div></div></div>
+      </div>
+      <div class="sec">Resumo do que foi feito</div>
+      <div class="card" id="resumo-feito"><div style="font-size:13px;color:var(--text3);font-style:italic">Marque as tarefas acima para gerar o resumo automaticamente.</div></div>
+    </div>
+
+    <!-- MARCOS -->
+    <div id="page-marcos" class="page">
+      <div class="page-title">Marcos mensais</div>
+      <div class="page-sub">Clique no marco para ver as tarefas · Filtre por cliente</div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterMarcos('all',this)">Todos</button>
+        <button class="filter-btn" onclick="filterMarcos('psg',this)">PSG</button>
+        <button class="filter-btn" onclick="filterMarcos('dominus',this)">Dominus</button>
+      </div>
+      <div class="sec">Maio 2026</div>
+      <div class="marco-card" data-client="psg">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">22/05 · PSG Máquinas</div><div class="marco-ttl">Conclusão do treinamento dos Gustavos</div></div><span class="badge b-a"><span class="dot da"></span> Em andamento</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-done">✓</div><div class="mt-body"><div class="mt-text">Dobradeira — montagem treinada</div><div class="mt-meta"><span class="mo">👤 Consultor + Gustavos</span><span class="md md-ok">📅 22/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-done">✓</div><div class="mt-body"><div class="mt-text">Laminadora 380 — montagem treinada</div><div class="mt-meta"><span class="mo">👤 Consultor + Gustavos</span><span class="md md-ok">📅 22/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-doing">→</div><div class="mt-body"><div class="mt-text">Vincadeira · Canteadeira · Furador — montagem treinada</div><div class="mt-meta"><span class="mo">👤 Consultor + Gustavos</span><span class="md md-w">📅 22/05</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="marco-card" data-client="psg">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">29/05 · PSG Máquinas</div><div class="marco-ttl">Produção das máquinas pendentes concluída</div></div><span class="badge b-a"><span class="dot da"></span> Em andamento</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-doing">→</div><div class="mt-body"><div class="mt-text">Canteadeira · Vincadeira · Furador · Dobradeira · Laminadora 380/680/520 · Polaseal</div><div class="mt-meta"><span class="mo">👤 Gustavos</span><span class="md md-w">📅 29/05</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="marco-card" data-client="psg">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">15/05 → 22/05 · PSG Máquinas</div><div class="marco-ttl">Estabilização do piloto de peças internas</div></div><span class="badge b-a"><span class="dot da"></span> Piloto</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-done">✓</div><div class="mt-body"><div class="mt-text">Peças críticas internas levantadas</div><div class="mt-meta"><span class="mo">👤 Consultor + Vitor</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-doing">→</div><div class="mt-body"><div class="mt-text">Plano de produção — torno e fresadora</div><div class="mt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 15/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Avaliação do piloto</div><div class="mt-meta"><span class="mo">👤 Consultor + Vitor</span><span class="md md-n">📅 15/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Estabilização e rotina</div><div class="mt-meta"><span class="mo">👤 Consultor + Vitor</span><span class="md md-n">📅 22/05</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="marco-card" data-client="dominus">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">29/05 · Dominus</div><div class="marco-ttl">Felipe assume planejamento completo</div></div><span class="badge b-g"><span class="dot dg"></span> Quase concluído</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-done">✓</div><div class="mt-body"><div class="mt-text">Programação diária</div><div class="mt-meta"><span class="mo">👤 Consultor + Felipe</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-doing">→</div><div class="mt-body"><div class="mt-text">Treinar programação semanal</div><div class="mt-meta"><span class="mo">👤 Consultor + Felipe</span><span class="md md-w">📅 29/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Treinar planejamento do molde inteiro</div><div class="mt-meta"><span class="mo">👤 Consultor + Felipe</span><span class="md md-n">📅 26/06</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Delegar e acompanhar planejamento completo</div><div class="mt-meta"><span class="mo">👤 Consultor + Felipe</span><span class="md md-n">📅 26/06</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="marco-card" data-client="dominus">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">12/05 → 26/06 · Dominus</div><div class="marco-ttl">Procedimentos dos processos do Wellington</div></div><span class="badge b-a"><span class="dot da"></span> Em risco</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-doing">→</div><div class="mt-body"><div class="mt-text">Eletroerosão — descrição ponto a ponto</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 12/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Montagem/desmontagem de moldes complexos — descrição</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 19/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Acabamento de polimento — descrição</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 26/05</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Try-out do molde — descrição</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 02/06</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Fotos + revisão + treinamento do funcionário (todos os 4)</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 26/06</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Auditorias dos procedimentos</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 Sem 8–9</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec">Junho 2026</div>
+      <div class="marco-card" data-client="psg">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">12/06 · PSG Máquinas</div><div class="marco-ttl">Implementação das 3 reuniões de gestão</div></div><span class="badge b-b">Planejado</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Reunião diária — equipe operacional + supervisor</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 12/06</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Reunião semanal — time tático</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 12/06</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Reunião mensal — gerência + supervisor + tático</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 12/06</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec">Julho 2026</div>
+      <div class="marco-card" data-client="dominus">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">03/07 → 17/07 · Dominus</div><div class="marco-ttl">Controle de velocidade das máquinas</div></div><span class="badge b-r"><span class="dot dr"></span> Bloqueado</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-blocked">!</div><div class="mt-body"><div class="mt-text">Coletar dados de base — velocidades</div><div class="mt-meta"><span class="mo">👤 Indefinido</span><span class="md md-l">📅 03/07</span></div></div></div>
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Analisar quebra de ferramentas x velocidade</div><div class="mt-meta"><span class="mo">👤 Indefinido</span><span class="md md-n">📅 17/07</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec">Ago–Nov 2026</div>
+      <div class="marco-card" data-client="psg">
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">Ago–Nov · PSG Máquinas</div><div class="marco-ttl">WPO — organização do ambiente de trabalho</div></div><span class="badge b-b">Planejado</span></div>
+        <div class="marco-body">
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
+            <div class="mt-item"><div class="ai ai-next">○</div><div class="mt-body"><div class="mt-text">Organização física da área de máquinas</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-n">📅 Ago–Nov</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PSG MAQ -->
+    <div id="page-psg-maq" class="page">
       <div class="page-title">PSG — Máquinas e peças</div>
       <div class="page-sub">Semana de 06/05/2026 · Fase: implementação do sistema de gestão</div>
-
       <div class="metrics">
         <div class="metric"><div class="metric-label">Projetos ativos</div><div class="metric-value">3</div></div>
-        <div class="metric"><div class="metric-label">No prazo</div><div class="metric-value green">2</div></div>
-        <div class="metric"><div class="metric-label">Em risco</div><div class="metric-value amber">1</div></div>
+        <div class="metric"><div class="metric-label">No prazo</div><div class="metric-value mv-g">2</div></div>
+        <div class="metric"><div class="metric-label">Em risco</div><div class="metric-value mv-a">1</div></div>
         <div class="metric"><div class="metric-label">Bloqueado</div><div class="metric-value">0</div></div>
       </div>
-
-      <div class="section-label">Projetos em andamento</div>
-
+      <div class="sec">Projetos em andamento</div>
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Treinamento técnico — Gustavos</div>
-            <div class="card-sub">Responsável: consultor · Marco: 29/05/2026</div>
-          </div>
-          <span class="badge b-green"><span class="dot dg"></span> No prazo</span>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Treinamento de montagem por máquina</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Dobradeira</div><div class="action-note">Concluído</div></div></div>
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Laminadora 380</div><div class="action-note">Concluído</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Vincadeira</div><div class="action-note">Em treinamento</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Canteadeira</div><div class="action-note">Em treinamento</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Furador</div><div class="action-note">Em treinamento</div></div></div>
-          </div>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Produção de máquinas pendentes</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Canteadeira</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Vincadeira</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Furador</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Dobradeira</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Laminadora 380</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Laminadora 680</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Laminadora 520</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Polaseal</div></div></div>
-          </div>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Próximo passo</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Início das reuniões de indicadores — junho</div><div class="action-note">Liberado após 29/05</div></div></div>
-          </div>
-        </div>
+        <div class="card-header"><div><div class="card-title">Treinamento técnico — Gustavos</div><div class="card-sub">Marco: 22/05 (treinamento) · 29/05 (produção)</div></div><span class="badge b-g"><span class="dot dg"></span> No prazo</span></div>
+        <div class="phase"><div class="phase-label">Montagem por máquina</div><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">Dobradeira · Laminadora 380</div><div class="am"><span class="mo">👤 Consultor + Gustavos</span><span class="md md-ok">📅 22/05</span></div></div></div>
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Vincadeira · Canteadeira · Furador</div><div class="am"><span class="mo">👤 Consultor + Gustavos</span><span class="md md-w">📅 22/05</span></div></div></div>
+        </div></div>
+        <div class="phase"><div class="phase-label">Produção pendente</div><div class="actions">
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">8 máquinas (Canteadeira, Vincadeira, Furador, Dobradeira, Laminadora 380/680/520, Polaseal)</div><div class="am"><span class="mo">👤 Gustavos</span><span class="md md-w">📅 29/05</span></div></div></div>
+        </div></div>
       </div>
-
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Estoque de peças críticas — compradas</div>
-            <div class="card-sub">Responsável: Vitor · Rotina periódica</div>
-          </div>
-          <span class="badge b-amber"><span class="dot da"></span> Em revisão</span>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Ações</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Levantamento das peças críticas de exportação</div><div class="action-note">Lista definida</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Contagem física das peças críticas de exportação</div><div class="action-note">Em execução</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Conferência com quantidade no sistema</div><div class="action-note">Bater estoque físico x sistema</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Lançamento das divergências no sistema</div><div class="action-note">Onde necessário</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Formalizar revisão periódica como rotina do Vitor</div><div class="action-note">Definir frequência e incluir na rotina semanal</div></div></div>
-          </div>
-        </div>
+        <div class="card-header"><div><div class="card-title">Estoque de peças críticas — importação</div><div class="card-sub">Responsável: Vitor</div></div><span class="badge b-a"><span class="dot da"></span> Em revisão</span></div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">Levantamento das peças críticas</div><div class="am"><span class="mo">👤 Vitor</span></div></div></div>
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Contagem física + conferência estoque x sistema</div><div class="am"><span class="mo">👤 Vitor</span><span class="md md-w">📅 15/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Lançamento de divergências · Formalizar rotina periódica</div><div class="am"><span class="mo">👤 Vitor</span></div></div></div>
+        </div></div>
       </div>
-
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Plano de produção — peças internas</div>
-            <div class="card-sub">Responsável: Vitor · Piloto esta semana</div>
-          </div>
-          <span class="badge b-amber"><span class="dot da"></span> Piloto</span>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Ações do piloto</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Levantamento das peças críticas internas</div><div class="action-note">Lista definida</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Criar plano de produção para o torno</div><div class="action-note">Vitor · Esta semana</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Criar plano de produção para a fresadora</div><div class="action-note">Vitor · Esta semana</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Acompanhar e executar o plano</div><div class="action-note">Critério: sem interrupções ao final da semana</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Avaliação do piloto — semana que vem</div><div class="action-note">Se falhar: ciclo de ajuste em junho</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Estabilização e rotina — junho</div><div class="action-note">Em paralelo com início das reuniões</div></div></div>
-          </div>
-        </div>
+        <div class="card-header"><div><div class="card-title">Plano de produção — peças internas</div><div class="card-sub">Responsável: Vitor · Piloto esta semana</div></div><span class="badge b-a"><span class="dot da"></span> Piloto</span></div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">Peças críticas internas levantadas</div><div class="am"><span class="mo">👤 Consultor + Vitor</span></div></div></div>
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Criar e executar plano — torno e fresadora</div><div class="am"><span class="mo">👤 Vitor</span><span class="md md-w">📅 15/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Avaliação do piloto</div><div class="am"><span class="mo">👤 Consultor + Vitor</span><span class="md md-n">📅 15/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Estabilização e rotina</div><div class="am"><span class="mo">👤 Consultor + Vitor</span><span class="md md-n">📅 22/05</span></div></div></div>
+        </div></div>
       </div>
-
-      <div class="section-label">Próximas fases</div>
-
-      <div class="card">
-        <div class="card-header">
-          <div><div class="card-title">Implementação das reuniões — junho</div><div class="card-sub">Liberado após 29/05</div></div>
-          <span class="badge b-blue">Planejado</span>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Diária — equipe operacional + supervisor</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Segurança · Plano de ação · Indicadores · Novas ações</div></div></div>
-          </div>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Semanal — time tático completo</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Segurança · Plano de ação · Indicadores · Novas ações</div></div></div>
-          </div>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Mensal — gerência + supervisor + time tático</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Segurança · Plano de ação · Indicadores · Novas ações</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Avaliação do andamento das reuniões e correções</div><div class="action-note">Calibrar o que precisa ser ajustado no método</div></div></div>
-          </div>
-        </div>
-      </div>
-
       <div class="roadmap" style="margin-top:1.5rem">
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-doing"></div>
-          <div class="roadmap-date">Mai–Jun 2026</div>
-          <div class="roadmap-title">Treinamento + Piloto + Reuniões</div>
-          <div class="roadmap-desc">Gustavos concluem em 29/05 · Piloto do Vitor · Reuniões em junho</div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-next"></div>
-          <div class="roadmap-date">Ago–Nov 2026</div>
-          <div class="roadmap-title">WPO — organização do ambiente</div>
-          <div class="roadmap-desc">Organização física da área de máquinas</div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-next"></div>
-          <div class="roadmap-date">Nov 2026–Abr 2027</div>
-          <div class="roadmap-title">Procedimentos e manuais</div>
-          <div class="roadmap-desc">Manuais de montagem, manutenção e operação</div>
-        </div>
+        <div class="rm-item"><div class="rm-dot rd-doing"></div><div class="rm-date">Mai–Jun 2026</div><div class="rm-title">Treinamento + Piloto + Reuniões</div><div class="rm-desc">Gustavos concluem em 29/05 · Piloto Vitor · Reuniões em junho</div></div>
+        <div class="rm-item"><div class="rm-dot rd-next"></div><div class="rm-date">Ago–Nov 2026</div><div class="rm-title">WPO — organização do ambiente</div></div>
+        <div class="rm-item"><div class="rm-dot rd-next"></div><div class="rm-date">Nov 2026–Abr 2027</div><div class="rm-title">Procedimentos e manuais</div></div>
       </div>
     </div>
 
     <!-- PSG BOPP -->
     <div id="page-psg-bopp" class="page">
       <div class="page-title">PSG — BOPP</div>
-      <div class="page-sub">Semana de 06/05/2026 · Fase: pilares avançados pós-sistema de gestão</div>
-
+      <div class="page-sub">Semana de 06/05/2026 · Pilares avançados pós-sistema de gestão</div>
       <div class="metrics">
-        <div class="metric"><div class="metric-label">Ativos agora</div><div class="metric-value">0</div></div>
-        <div class="metric"><div class="metric-label">Próximo início</div><div class="metric-value small">Jul/26</div></div>
-        <div class="metric"><div class="metric-label">Término previsto</div><div class="metric-value small">Jan/27</div></div>
+        <div class="metric"><div class="metric-label">Ativos agora</div><div class="metric-value mv-a">1</div></div>
+        <div class="metric"><div class="metric-label">No prazo</div><div class="metric-value mv-g">1</div></div>
+        <div class="metric"><div class="metric-label">Próxima fase</div><div class="metric-value mv-sm">Jul/26</div></div>
       </div>
-
-      <div class="section-label">Próximas fases</div>
-
-      <div class="roadmap">
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-done"></div>
-          <div class="roadmap-date">Concluído</div>
-          <div class="roadmap-title">Implementação do sistema de gestão</div>
-          <div class="roadmap-desc">Área BOPP já passou pela implementação completa</div>
+      <div class="sec">Projeto em andamento</div>
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Levantamento de custos por produto</div><div class="card-sub">Responsável: Kauê · Aguardando validação financeira</div></div>
+          <span class="badge b-gray">&#9646; Em pausa</span>
         </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-next"></div>
-          <div class="roadmap-date">Jul–Set 2026</div>
-          <div class="roadmap-title">Pilar de manutenção</div>
-          <div class="roadmap-desc">Estruturação e implementação do pilar na área BOPP</div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-next"></div>
-          <div class="roadmap-date">Set 2026–Jan 2027</div>
-          <div class="roadmap-title">Treinamento</div>
-          <div class="roadmap-desc">Início após conclusão das manutenções</div>
-        </div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Definir formato de visualização com Leandro</div><div class="am"><span class="mo">👤 Kauê + Leandro</span><span class="md md-w">📅 11/05 — hoje</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Levantamento dos custos de cada produto</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 16/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Lançamento dos custos por produto</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+        </div></div>
+      </div>
+      <div class="sec">Próximas fases</div>
+      <div class="roadmap" style="margin-top:0.5rem">
+        <div class="rm-item"><div class="rm-dot rd-done"></div><div class="rm-date">Concluído</div><div class="rm-title">Implementação do sistema de gestão</div><div class="rm-desc">Área BOPP já passou pela implementação completa</div></div>
+        <div class="rm-item"><div class="rm-dot rd-next"></div><div class="rm-date">Jul–Set 2026</div><div class="rm-title">Pilar de manutenção</div></div>
+        <div class="rm-item"><div class="rm-dot rd-next"></div><div class="rm-date">Set 2026–Jan 2027</div><div class="rm-title">Treinamento</div></div>
       </div>
     </div>
 
@@ -727,98 +395,89 @@
     <div id="page-dominus" class="page">
       <div class="page-title">Dominus</div>
       <div class="page-sub">Semana de 06/05/2026 · Ferramentaria de moldes para injeção plástica</div>
-
       <div class="metrics">
         <div class="metric"><div class="metric-label">Projetos ativos</div><div class="metric-value">2</div></div>
-        <div class="metric"><div class="metric-label">No prazo</div><div class="metric-value green">1</div></div>
-        <div class="metric"><div class="metric-label">Em risco</div><div class="metric-value amber">1</div></div>
-        <div class="metric"><div class="metric-label">Bloqueado</div><div class="metric-value red">1</div></div>
+        <div class="metric"><div class="metric-label">No prazo</div><div class="metric-value mv-g">1</div></div>
+        <div class="metric"><div class="metric-label">Em risco</div><div class="metric-value mv-a">1</div></div>
+        <div class="metric"><div class="metric-label">Bloqueado</div><div class="metric-value mv-r">1</div></div>
       </div>
-
-      <div class="section-label">Projetos em andamento</div>
-
+      <div class="sec">Projetos em andamento</div>
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Treinamento Felipe — planejamento e programação</div>
-            <div class="card-sub">Responsável: consultor + Felipe · Prazo: fim de maio</div>
-          </div>
-          <span class="badge b-green"><span class="dot dg"></span> Quase concluído</span>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Ações</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Programação diária</div><div class="action-note">Concluído — Felipe opera; Pablo cuida do setup</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Treinar programação semanal</div><div class="action-note">Em andamento — prazo fim de maio</div></div></div>
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Treinar planejamento do molde inteiro</div><div class="action-note">Datas de peças críticas, acabamentos e try-out</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Delegar e acompanhar planejamento completo</div><div class="action-note">Junho — Felipe assume CNC + projetos de molde de forma autônoma</div></div></div>
-          </div>
-        </div>
+        <div class="card-header"><div><div class="card-title">Treinamento Felipe — planejamento e programação</div><div class="card-sub">Prazo: 29/05</div></div><span class="badge b-g"><span class="dot dg"></span> Quase concluído</span></div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">Programação diária</div><div class="am"><span class="mo">👤 Consultor + Felipe</span></div></div></div>
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Programação semanal + planejamento do molde inteiro</div><div class="am"><span class="mo">👤 Consultor + Felipe</span><span class="md md-w">📅 29/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Treinar planejamento completo + delegar</div><div class="am"><span class="mo">👤 Consultor + Felipe</span><span class="md md-n">📅 26/06</span></div></div></div>
+        </div></div>
       </div>
-
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Procedimentos — processos do Wellington</div>
-            <div class="card-sub">Responsável: consultor · Em execução</div>
-          </div>
-          <span class="badge b-amber"><span class="dot da"></span> Em risco</span>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Processos identificados</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Levantamento dos 4 processos críticos</div><div class="action-note">Eletroerosão · Montagem/desmontagem de moldes complexos · Acabamento de polimento · Try-out do molde</div></div></div>
-          </div>
-        </div>
-        <div class="phase">
-          <div class="phase-label">Para cada um dos 4 processos</div>
-          <div class="actions">
-            <div class="action"><div class="ai ai-doing">→</div><div class="action-body"><div class="action-text">Descrição ponto a ponto</div><div class="action-note">Em execução</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Inclusão de fotos em cada etapa</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Revisão do procedimento</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text">Colocar em produção e treinar funcionário</div></div></div>
-          </div>
-        </div>
+        <div class="card-header"><div><div class="card-title">Procedimentos — processos do Wellington</div><div class="card-sub">Em execução</div></div><span class="badge b-a"><span class="dot da"></span> Em risco</span></div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">4 processos identificados</div><div class="am"><span class="mo">👤 Consultor</span></div></div></div>
+          <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Eletroerosão — descrição ponto a ponto</div><div class="am"><span class="mo">👤 Consultor</span><span class="md md-w">📅 12/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Montagem/desmontagem — descrição</div><div class="am"><span class="mo">👤 Consultor</span><span class="md md-n">📅 19/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Acabamento de polimento — descrição</div><div class="am"><span class="mo">👤 Consultor</span><span class="md md-n">📅 26/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Try-out do molde — descrição</div><div class="am"><span class="mo">👤 Consultor</span><span class="md md-n">📅 02/06</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Fotos + revisão + treinamento (todos os 4)</div><div class="am"><span class="mo">👤 Consultor</span><span class="md md-n">📅 26/06</span></div></div></div>
+        </div></div>
       </div>
-
       <div class="card blocked">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Controle de velocidade das máquinas</div>
-            <div class="card-sub">Responsável: indefinido · Checklist criado</div>
-          </div>
-          <span class="badge b-red"><span class="dot dr"></span> Bloqueado</span>
-        </div>
-        <div class="phase">
-          <div class="actions">
-            <div class="action"><div class="ai ai-done">✓</div><div class="action-body"><div class="action-text">Tabela de velocidades e checklist criados</div><div class="action-note">Ferramenta pronta; nunca foi operada de fato</div></div></div>
-            <div class="action"><div class="ai ai-blocked">!</div><div class="action-body"><div class="action-text muted">Bloqueado — definir responsável</div><div class="action-note">Decisão pendente: Felipe ou Thiago assume o checklist?</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text muted">Coletar dados de base (sem histórico)</div><div class="action-note">Após definição do responsável</div></div></div>
-            <div class="action"><div class="ai ai-next">○</div><div class="action-body"><div class="action-text muted">Analisar quebra de ferramentas x velocidade</div><div class="action-note">Se sem quebras → aumentar velocidade para ganho de produtividade</div></div></div>
-          </div>
-        </div>
+        <div class="card-header"><div><div class="card-title">Controle de velocidade das máquinas</div><div class="card-sub">Responsável: indefinido</div></div><span class="badge b-r"><span class="dot dr"></span> Bloqueado</span></div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">Tabela e checklist criados</div><div class="am"><span class="mo">👤 Consultor</span></div></div></div>
+          <div class="action"><div class="ai ai-blocked">!</div><div class="ab"><div class="at muted">Aguardando definição de responsável</div><div class="am"><span class="mo">👤 Consultor + Thiago</span><span class="md md-l">📅 29/05</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at muted">Coletar dados de base</div><div class="am"><span class="mo">👤 Indefinido</span><span class="md md-n">📅 03/07</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at muted">Analisar quebras x velocidade</div><div class="am"><span class="mo">👤 Indefinido</span><span class="md md-n">📅 17/07</span></div></div></div>
+        </div></div>
       </div>
+      <div class="roadmap" style="margin-top:1.5rem">
+        <div class="rm-item"><div class="rm-dot rd-done"></div><div class="rm-date">Semanas 1–3</div><div class="rm-title">Investigação</div><div class="rm-desc">Árvore de causas · Reuniões e indicadores ativos</div></div>
+        <div class="rm-item"><div class="rm-dot rd-doing"></div><div class="rm-date">Semanas 4–7</div><div class="rm-title">Procedimentos</div><div class="rm-desc">Documentos auditáveis · Acelerado pela saída do Wellington</div></div>
+        <div class="rm-item"><div class="rm-dot rd-next"></div><div class="rm-date">Semanas 8–9</div><div class="rm-title">Auditorias</div></div>
+      </div>
+    </div>
 
-      <div class="section-label">Roadmap Dominus</div>
-      <div class="roadmap">
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-done"></div>
-          <div class="roadmap-date">Semanas 1–3</div>
-          <div class="roadmap-title">Investigação</div>
-          <div class="roadmap-desc">Árvore de causas · Reuniões e indicadores ativos</div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-doing"></div>
-          <div class="roadmap-date">Semanas 4–7</div>
-          <div class="roadmap-title">Procedimentos</div>
-          <div class="roadmap-desc">Documentos auditáveis · Acelerado pela saída do Wellington</div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot rd-next"></div>
-          <div class="roadmap-date">Semanas 8–9</div>
-          <div class="roadmap-title">Auditorias</div>
-          <div class="roadmap-desc">Relatórios de auditoria dos procedimentos</div>
-        </div>
+    <!-- PROJETOS -->
+    <div id="page-projetos" class="page">
+      <div class="page-title">Projetos</div>
+      <div class="page-sub">Desenvolvimento e automação · 11/05/2026</div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Em andamento</div><div class="metric-value mv-a">2</div></div>
+        <div class="metric"><div class="metric-label">Em pausa</div><div class="metric-value" style="color:var(--text2)">1</div></div>
+        <div class="metric"><div class="metric-label">Concluídos</div><div class="metric-value mv-g">0</div></div>
+      </div>
+      <div class="sec">Em andamento</div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Automação de processos de RH</div><div class="card-sub">Responsável: Kauê · Cliente: Leandro (PSG)</div></div><span class="badge b-a"><span class="dot da"></span> Em andamento</span></div>
+        <div class="phase"><div class="phase-label">Esta semana</div><div class="actions">
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Esboço do projeto — levantamento de requisitos</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-w">📅 16/05</span></div></div></div>
+        </div></div>
+        <div class="phase"><div class="phase-label">Módulos planejados</div><div class="actions">
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Controle de férias</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Controle de pagamentos</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Controle de comissões</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+        </div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Agente de PCP — PSG</div><div class="card-sub">Responsável: Kauê · Cliente: PSG (BOPP + Máquinas)</div></div><span class="badge b-a"><span class="dot da"></span> Em andamento</span></div>
+        <div class="phase"><div class="phase-label">Esta semana</div><div class="actions">
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Esboço do projeto — levantamento de requisitos</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-w">📅 16/05</span></div></div></div>
+        </div></div>
+        <div class="phase"><div class="phase-label">Funcionalidades planejadas</div><div class="actions">
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Montagem de layouts de produção do BOPP nas máquinas grandes</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Programação da fila de produção — máquinas grandes</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Programação da fila de produção — máquinas pequenas</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+        </div></div>
+      </div>
+      <div class="sec">Em pausa</div>
+      <div class="card" style="opacity:0.75">
+        <div class="card-header"><div><div class="card-title">Levantamento de custos por produto — BOPP</div><div class="card-sub">Responsável: Kauê · Aguardando validação do analista financeiro</div></div><span class="badge b-gray">&#9646; Em pausa</span></div>
+        <div class="phase"><div class="actions">
+          <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">Dados enviados ao analista financeiro</div><div class="am"><span class="mo">👤 Kauê</span></div></div></div>
+          <div class="action"><div class="ai ai-blocked">!</div><div class="ab"><div class="at muted">Aguardando validação para continuar</div><div class="am"><span class="mo">👤 Leandro</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at muted">Levantamento dos custos por produto</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Após validação</span></div></div></div>
+          <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at muted">Lançamento dos custos por produto</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Indeterminada</span></div></div></div>
+        </div></div>
       </div>
     </div>
 
@@ -826,154 +485,48 @@
     <div id="page-cronograma" class="page">
       <div class="page-title">Cronograma geral</div>
       <div class="page-sub">Mai/2026 – Abr/2027 · Todas as frentes</div>
-
       <div class="gantt-wrap">
-        <div class="gantt-grid">
-          <div class="month-header">
-            <div></div>
-            <div class="month-cell current">Mai</div>
-            <div class="month-cell">Jun</div>
-            <div class="month-cell">Jul</div>
-            <div class="month-cell">Ago</div>
-            <div class="month-cell">Set</div>
-            <div class="month-cell">Out</div>
-            <div class="month-cell">Nov</div>
-            <div class="month-cell">Dez</div>
-            <div class="month-cell">Jan</div>
-            <div class="month-cell">Fev</div>
-            <div class="month-cell">Mar</div>
-            <div class="month-cell">Abr</div>
-          </div>
-
-          <div class="gantt-group-label">PSG — Máquinas</div>
-
-          <div class="gantt-row">
-            <div class="gantt-label">Treinamento Gustavos</div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-solo"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">Estoque / piloto peças</div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-end"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">Reuniões (3 níveis)</div>
-            <div class="gantt-cell"></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-solo"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">WPO área máquinas</div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-end"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">Procedimentos / manuais</div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-end"></div></div>
-          </div>
-
-          <div class="gantt-group-label">PSG — BOPP</div>
-
-          <div class="gantt-row">
-            <div class="gantt-label">Pilar de manutenção</div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-end"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">Treinamento BOPP</div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-planned gb-end"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-
-          <div class="gantt-group-label">Dominus</div>
-
-          <div class="gantt-row">
-            <div class="gantt-label">Treinamento Felipe</div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-end"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">Procedimentos Wellington</div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-start"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-mid"></div></div>
-            <div class="gantt-cell"><div class="gantt-block gb-doing gb-end"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
-          <div class="gantt-row">
-            <div class="gantt-label">Velocidade máquinas</div>
-            <div class="gantt-cell"><div class="gantt-block gb-blocked gb-solo"></div></div>
-            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-          </div>
+        <div style="min-width:640px">
+          <div class="mh"><div></div><div class="mc cur">Mai</div><div class="mc">Jun</div><div class="mc">Jul</div><div class="mc">Ago</div><div class="mc">Set</div><div class="mc">Out</div><div class="mc">Nov</div><div class="mc">Dez</div><div class="mc">Jan</div><div class="mc">Fev</div><div class="mc">Mar</div><div class="mc">Abr</div></div>
+          <div class="gg-lbl">PSG — Máquinas</div>
+          <div class="gr"><div class="gl">Treinamento Gustavos</div><div class="gc"><div class="gb gb-d gb-o"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">Estoque / piloto</div><div class="gc"><div class="gb gb-d gb-s"></div></div><div class="gc"><div class="gb gb-d gb-e"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">Reuniões (3 níveis)</div><div class="gc"></div><div class="gc"><div class="gb gb-p gb-o"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">WPO área máquinas</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gb gb-p gb-s"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-e"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">Procedimentos/manuais</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gb gb-p gb-s"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-e"></div></div></div>
+          <div class="gg-lbl">PSG — BOPP</div>
+          <div class="gr"><div class="gl">Pilar de manutenção</div><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gb gb-p gb-s"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-e"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">Treinamento BOPP</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gb gb-p gb-s"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-m"></div></div><div class="gc"><div class="gb gb-p gb-e"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gg-lbl">Dominus</div>
+          <div class="gr"><div class="gl">Treinamento Felipe</div><div class="gc"><div class="gb gb-d gb-s"></div></div><div class="gc"><div class="gb gb-d gb-e"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">Procedimentos Wellington</div><div class="gc"><div class="gb gb-d gb-s"></div></div><div class="gc"><div class="gb gb-d gb-m"></div></div><div class="gc"><div class="gb gb-d gb-e"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+          <div class="gr"><div class="gl">Velocidade máquinas</div><div class="gc"></div><div class="gc"></div><div class="gc"><div class="gb gb-b gb-o"></div></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
         </div>
       </div>
-
       <div class="legend">
-        <div class="legend-item"><div class="legend-box" style="background:var(--amber-bg);border:0.5px solid var(--amber)"></div> Em andamento</div>
-        <div class="legend-item"><div class="legend-box" style="background:var(--surface2);border:0.5px solid var(--border-strong)"></div> Planejado</div>
-        <div class="legend-item"><div class="legend-box" style="background:var(--red-bg);border:0.5px solid var(--red)"></div> Bloqueado</div>
+        <div class="li"><div class="lb" style="background:var(--amber-bg);border:0.5px solid var(--amber)"></div> Em andamento</div>
+        <div class="li"><div class="lb" style="background:var(--surface2);border:0.5px solid var(--border-strong)"></div> Planejado</div>
+        <div class="li"><div class="lb" style="background:var(--red-bg);border:0.5px solid var(--red)"></div> Bloqueado</div>
       </div>
-
-      <div class="section-label" style="margin-top:2rem">Pontos de atenção desta semana</div>
+      <div class="sec" style="margin-top:1.5rem">Pontos de atenção</div>
       <div class="card">
-        <div class="risk-item">
-          <div class="risk-icon-wrap ri-amber">⚠️</div>
-          <div>
-            <div class="risk-title">Piloto de plano de produção — PSG Máquinas</div>
-            <div class="risk-desc">Vitor conclui esta semana. Critério: torno e fresadora executados sem interrupções. Se falhar, ciclo de ajuste em junho.</div>
-          </div>
-        </div>
-        <div class="risk-item">
-          <div class="risk-icon-wrap ri-red">🚫</div>
-          <div>
-            <div class="risk-title">Responsável indefinido — velocidade das máquinas (Dominus)</div>
-            <div class="risk-desc">Projeto parado desde saída do Wellington. Decisão necessária: Felipe ou Thiago assume o checklist?</div>
-          </div>
-        </div>
-        <div class="risk-item">
-          <div class="risk-icon-wrap ri-blue">📅</div>
-          <div>
-            <div class="risk-title">29/05 — marco crítico PSG Máquinas</div>
-            <div class="risk-desc">Conclusão do treinamento dos Gustavos. Libera início das reuniões de indicadores em junho.</div>
-          </div>
-        </div>
+        <div class="risk-item"><div class="ri-ic ri-a">⚠️</div><div class="rt"><strong>Piloto de plano de produção — PSG Máquinas</strong><span>Vitor conclui esta semana. Critério: torno e fresadora sem interrupções. Avaliação em 15/05.</span></div></div>
+        <div class="risk-item"><div class="ri-ic ri-r">🚫</div><div class="rt"><strong>Responsável indefinido — velocidade das máquinas (Dominus)</strong><span>Parado desde saída do Wellington. Definir até 29/05: Felipe ou Thiago?</span></div></div>
+        <div class="risk-item"><div class="ri-ic ri-b">📅</div><div class="rt"><strong>29/05 — marco crítico PSG Máquinas</strong><span>Conclusão do treinamento dos Gustavos. Libera reuniões em junho.</span></div></div>
       </div>
     </div>
 
   </main>
 </div>
-
 <script>
-  const now = new Date();
-  document.getElementById('update-date').textContent =
-    now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-  function showPage(id, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
-    btn.classList.add('active');
-  }
+document.getElementById('upd-date').textContent=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');btn.classList.add('active')}
+function toggleTask(el){if(el.classList.contains('done'))return;el.classList.add('done');const n=new Date();el.querySelector('.ddv').textContent=n.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})+' às '+n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});updateProgress();updateResumo()}
+function updateProgress(){document.querySelectorAll('.week-card').forEach(card=>{const tasks=card.querySelectorAll('.wt'),done=card.querySelectorAll('.wt.done').length,total=tasks.length,pct=total>0?Math.round(done/total*100):0,client=card.dataset.client,id=client==='dominus'?'dom':client==='psg'&&card.querySelector('.wct').textContent.includes('BOPP')?'bopp':'psg';const bar=document.getElementById('bar-'+id),prog=document.getElementById('prog-'+id);if(bar)bar.style.width=pct+'%';if(prog)prog.textContent=done+' de '+total+' concluídas'})}
+function updateResumo(){const all=document.querySelectorAll('.wt.done'),r=document.getElementById('resumo-feito');if(!all.length){r.innerHTML='<div style="font-size:13px;color:#9a9a94;font-style:italic">Marque as tarefas acima para gerar o resumo automaticamente.</div>';return}let h='<div style="font-size:11px;font-weight:600;color:#2d7d46;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em">✓ Concluído esta semana</div>';all.forEach(t=>{const txt=t.querySelector('.wt-text').textContent,dt=t.querySelector('.ddv').textContent,cl=t.closest('.week-card').dataset.client,tag=cl==='psg'?'<span style="font-size:10px;font-weight:600;padding:2px 6px;border-radius:99px;background:#e8f1fb;color:#1a5fa8;margin-left:6px">PSG</span>':'<span style="font-size:10px;font-weight:600;padding:2px 6px;border-radius:99px;background:#f0eafa;color:#6b35b0;margin-left:6px">Dominus</span>';h+=`<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:0.5px solid #f5f5f2"><div style="color:#2d7d46;font-weight:700;font-size:13px;margin-top:1px">✓</div><div style="flex:1"><div style="font-size:13px">${txt}${tag}</div><div style="font-size:11px;color:#9a9a94;margin-top:2px">Concluído em ${dt}</div></div></div>`});r.innerHTML=h}
+function filterWeek(c,btn){btn.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.week-card').forEach(card=>{card.style.display=(c==='all'||card.dataset.client===c)?'block':'none'})}
+function filterMarcos(c,btn){btn.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.marco-card').forEach(card=>{card.style.display=(c==='all'||card.dataset.client===c)?'block':'none'})}
+function toggleMarco(hdr){hdr.querySelector('.marco-arrow').classList.toggle('open');hdr.nextElementSibling.classList.toggle('open')}
 </script>
 </body>
 </html>
