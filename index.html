@@ -147,7 +147,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
   <aside class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Geral</div>
-      <button class="nav-item active" onclick="showPage('semana',this)">📋 Semana atual<span class="nav-badge nb-amber">8</span></button>
+      <button class="nav-item active" onclick="showPage('semana',this)">📋 Semana atual<span class="nav-badge nb-amber">10</span></button>
       <button class="nav-item" onclick="showPage('marcos',this)">📅 Marcos mensais</button>
     </div>
     <div class="sidebar-section">
@@ -190,7 +190,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
         <div class="wch"><div><div class="wct">Dominus</div><div class="wcs">3 tarefas planejadas</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
         <div class="week-tasks">
           <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Treinar Felipe na programação semanal dos CNC</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Escrever descrição ponto a ponto — Eletroerosão</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 12/05</span></div><span class="wt-note">Primeiro dos 4 processos do Wellington</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Escrever descrição ponto a ponto — Eletroerosão</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Standby</span></div><span class="wt-note">⏸ Aguardando contratação do novo líder</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
           <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir responsável pelo controle de velocidade das máquinas</div><div class="wt-meta"><span class="mo">👤 Consultor + Thiago</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">⚠️ Bloqueado — Felipe ou Thiago assume?</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
         </div>
         <div class="wsum"><span id="prog-dom">0 de 3 concluídas</span><div class="pbar"><div class="pfill" id="bar-dom" style="width:0%"></div></div></div>
@@ -217,6 +217,40 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
         </div>
         <div class="wsum"><span id="prog-pcp">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-pcp" style="width:0%"></div></div></div>
       </div>
+      <div class="sec">Atividades recorrentes</div>
+
+      <div class="week-card" data-client="psg">
+        <div class="wch"><div><div class="wct">PSG — Repasse semanal</div><div class="wcs">🔁 Toda semana</div></div><span class="badge b-b">PSG</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Repasse de tudo que foi feito na semana — PSG</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Toda sexta</span></div><span class="wt-note">Consolidar avanços, pendências e próximos passos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-rep-psg">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-rep-psg" style="width:0%"></div></div></div>
+      </div>
+
+      <div class="week-card" data-client="dominus">
+        <div class="wch"><div><div class="wct">Dominus — Repasse semanal</div><div class="wcs">🔁 Toda semana</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Repasse de tudo que foi feito na semana — Dominus</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Toda sexta</span></div><span class="wt-note">Consolidar avanços, pendências e próximos passos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-rep-dom">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-rep-dom" style="width:0%"></div></div></div>
+      </div>
+
+      <div class="week-card" data-client="psg">
+        <div class="wch"><div><div class="wct">PSG — Apresentação mensal</div><div class="wcs">🔁 Todo fim de mês</div></div><span class="badge b-b">PSG</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Apresentação de resultado mensal — PSG</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Todo fim de mês</span></div><span class="wt-note">Resultados, indicadores e próximos marcos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-men-psg">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-men-psg" style="width:0%"></div></div></div>
+      </div>
+
+      <div class="week-card" data-client="dominus">
+        <div class="wch"><div><div class="wct">Dominus — Apresentação mensal</div><div class="wcs">🔁 Todo fim de mês</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
+        <div class="week-tasks">
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Apresentação de resultado mensal — Dominus</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Todo fim de mês</span></div><span class="wt-note">Resultados, indicadores e próximos marcos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+        </div>
+        <div class="wsum"><span id="prog-men-dom">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-men-dom" style="width:0%"></div></div></div>
+      </div>
+
       <div class="sec">Resumo do que foi feito</div>
       <div class="card" id="resumo-feito"><div style="font-size:13px;color:var(--text3);font-style:italic">Marque as tarefas acima para gerar o resumo automaticamente.</div></div>
     </div>
@@ -272,7 +306,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
         </div>
       </div>
       <div class="marco-card" data-client="dominus">
-        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">12/05 → 26/06 · Dominus</div><div class="marco-ttl">Procedimentos dos processos do Wellington</div></div><span class="badge b-a"><span class="dot da"></span> Em risco</span></div>
+        <div class="marco-hdr" onclick="toggleMarco(this)"><div class="marco-arrow">▶</div><div class="marco-info"><div class="marco-dl">Dominus · Indeterminado</div><div class="marco-ttl">Procedimentos dos processos do Wellington</div></div><span class="badge b-gray">&#9646; Standby</span></div>
         <div class="marco-body">
           <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px">
             <div class="mt-item"><div class="ai ai-doing">→</div><div class="mt-body"><div class="mt-text">Eletroerosão — descrição ponto a ponto</div><div class="mt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 12/05</span></div></div></div>
@@ -397,7 +431,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
       <div class="metrics">
         <div class="metric"><div class="metric-label">Projetos ativos</div><div class="metric-value">2</div></div>
         <div class="metric"><div class="metric-label">No prazo</div><div class="metric-value mv-g">1</div></div>
-        <div class="metric"><div class="metric-label">Em risco</div><div class="metric-value mv-a">1</div></div>
+        <div class="metric"><div class="metric-label">Standby</div><div class="metric-value" style="color:var(--text2)">1</div></div>
         <div class="metric"><div class="metric-label">Bloqueado</div><div class="metric-value mv-r">1</div></div>
       </div>
       <div class="sec">Projetos em andamento</div>
@@ -410,7 +444,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
         </div></div>
       </div>
       <div class="card">
-        <div class="card-header"><div><div class="card-title">Procedimentos — processos do Wellington</div><div class="card-sub">Em execução</div></div><span class="badge b-a"><span class="dot da"></span> Em risco</span></div>
+        <div class="card-header"><div><div class="card-title">Procedimentos — processos do Wellington</div><div class="card-sub">Aguardando contratação do novo líder</div></div><span class="badge b-gray">&#9646; Standby</span></div>
         <div class="phase"><div class="actions">
           <div class="action"><div class="ai ai-done">✓</div><div class="ab"><div class="at">4 processos identificados</div><div class="am"><span class="mo">👤 Consultor</span></div></div></div>
           <div class="action"><div class="ai ai-doing">→</div><div class="ab"><div class="at">Eletroerosão — descrição ponto a ponto</div><div class="am"><span class="mo">👤 Consultor</span><span class="md md-w">📅 12/05</span></div></div></div>
