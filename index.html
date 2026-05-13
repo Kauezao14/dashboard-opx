@@ -136,6 +136,40 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
 /* RESUMO */
 #resumo-feito{min-height:48px}
 @media(max-width:768px){.sidebar{display:none}.main{padding:1rem}header{padding:0 1rem}}
+
+/* EDICAO E EXCLUSAO */
+.wt{position:relative}
+.wt-actions{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:none;gap:4px;align-items:center}
+.wt:hover .wt-actions{display:flex}
+.wt.done .wt-actions{display:none}
+.btn-edit-date{background:var(--blue-bg);color:var(--blue);border:none;border-radius:4px;padding:3px 7px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:500}
+.btn-edit-date:hover{background:#d0e4f8}
+.btn-del{background:var(--red-bg);color:var(--red);border:none;border-radius:4px;padding:3px 7px;font-size:11px;cursor:pointer;font-weight:500}
+.btn-del:hover{background:#fbd5d5}
+.edit-date-input{font-size:11px;border:0.5px solid var(--border);border-radius:4px;padding:2px 6px;font-family:inherit;color:var(--text);background:var(--surface)}
+
+/* ADICIONAR ATIVIDADE */
+.add-task-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;border:0.5px dashed var(--border-strong);background:transparent;cursor:pointer;font-size:13px;color:var(--text3);font-family:inherit;width:100%;transition:all 0.12s;margin-top:4px}
+.add-task-btn:hover{background:var(--bg);color:var(--text2);border-color:var(--blue)}
+.add-task-form{display:none;padding:10px 12px;background:var(--bg);border-radius:8px;margin-top:4px;border:0.5px solid var(--border)}
+.add-task-form.open{display:block}
+.atf-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.atf-input{flex:1;min-width:150px;font-size:13px;border:0.5px solid var(--border);border-radius:6px;padding:6px 10px;font-family:inherit;color:var(--text);background:var(--surface)}
+.atf-input:focus{outline:none;border-color:var(--blue)}
+.atf-date{font-size:12px;border:0.5px solid var(--border);border-radius:6px;padding:6px 10px;font-family:inherit;color:var(--text);background:var(--surface)}
+.atf-owner{font-size:12px;border:0.5px solid var(--border);border-radius:6px;padding:6px 10px;font-family:inherit;color:var(--text);background:var(--surface);min-width:120px}
+.atf-btns{display:flex;gap:6px}
+.btn-confirm{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500}
+.btn-confirm:hover{background:#1550a0}
+.btn-cancel{background:var(--surface2);color:var(--text2);border:none;border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit}
+
+/* EDICAO EM MARCOS E ACOES */
+.mt-item{position:relative}
+.mt-item .wt-actions{display:none}
+.mt-item:hover .wt-actions{display:flex}
+.action{position:relative}
+.action .wt-actions{display:none}
+.action:hover .wt-actions{display:flex}
 </style>
 </head>
 <body>
@@ -180,41 +214,41 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
       <div class="week-card" data-client="psg">
         <div class="wch"><div><div class="wct">PSG — Máquinas e peças</div><div class="wcs">3 tarefas planejadas</div></div><span class="badge b-b">PSG</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Acompanhar execução do piloto de plano de produção</div><div class="wt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 Até 15/05</span></div><span class="wt-note">Torno e fresadora sem interrupções</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Verificar andamento do treinamento dos Gustavos</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">Vincadeira, Canteadeira e Furador em foco</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Conferir contagem física de peças críticas de importação</div><div class="wt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 Até 15/05</span></div><span class="wt-note">Bater estoque físico x sistema</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Acompanhar execução do piloto de plano de produção</div><div class="wt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 Até 15/05</span></div><span class="wt-note">Torno e fresadora sem interrupções</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Verificar andamento do treinamento dos Gustavos</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">Vincadeira, Canteadeira e Furador em foco</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Conferir contagem física de peças críticas de importação</div><div class="wt-meta"><span class="mo">👤 Vitor</span><span class="md md-w">📅 Até 15/05</span></div><span class="wt-note">Bater estoque físico x sistema</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-psg">0 de 3 concluídas</span><div class="pbar"><div class="pfill" id="bar-psg" style="width:0%"></div></div></div>
       </div>
       <div class="week-card" data-client="dominus">
         <div class="wch"><div><div class="wct">Dominus</div><div class="wcs">3 tarefas planejadas</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Treinar Felipe na programação semanal dos CNC</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Escrever descrição ponto a ponto — Eletroerosão</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Standby</span></div><span class="wt-note">⏸ Aguardando contratação do novo líder</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir responsável pelo controle de velocidade das máquinas</div><div class="wt-meta"><span class="mo">👤 Consultor + Thiago</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">⚠️ Bloqueado — Felipe ou Thiago assume?</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Treinar Felipe na programação semanal dos CNC</div><div class="wt-meta"><span class="mo">👤 Consultor</span><span class="md md-w">📅 Até 29/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Escrever descrição ponto a ponto — Eletroerosão</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Standby</span></div><span class="wt-note">⏸ Aguardando contratação do novo líder</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir responsável pelo controle de velocidade das máquinas</div><div class="wt-meta"><span class="mo">👤 Consultor + Thiago</span><span class="md md-w">📅 Até 29/05</span></div><span class="wt-note">⚠️ Bloqueado — Felipe ou Thiago assume?</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-dom">0 de 3 concluídas</span><div class="pbar"><div class="pfill" id="bar-dom" style="width:0%"></div></div></div>
       </div>
       <div class="week-card" data-client="psg">
         <div class="wch"><div><div class="wct">PSG — BOPP</div><div class="wcs">3 tarefas planejadas</div></div><span class="badge b-b">PSG</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir formato de visualização dos custos com Leandro</div><div class="wt-meta"><span class="mo">👤 Kauê + Leandro</span><span class="md md-l">📅 Hoje — 11/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Iniciar levantamento dos custos por produto</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Definir formato de visualização dos custos com Leandro</div><div class="wt-meta"><span class="mo">👤 Kauê + Leandro</span><span class="md md-l">📅 Hoje — 11/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Iniciar levantamento dos custos por produto</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
-                  <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Avaliar qualidade das bobinas devolvidas por reclamação do cliente</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-l">📅 Hoje — 13/05</span></div><span class="wt-note">Análise de qualidade + registro do resultado</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+                  <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Avaliar qualidade das bobinas devolvidas por reclamação do cliente</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-l">📅 Hoje — 13/05</span></div><span class="wt-note">Análise de qualidade + registro do resultado</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         <div class="wsum"><span id="prog-bopp">0 de 3 concluídas</span><div class="pbar"><div class="pfill" id="bar-bopp" style="width:0%"></div></div></div>
       </div>
       <div class="week-card" data-client="psg">
         <div class="wch"><div><div class="wct">PSG — Automação RH</div><div class="wcs">1 tarefa planejada</div></div><span class="badge b-b">PSG</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Esboço do projeto de automação de RH</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><span class="wt-note">Requisitos: controle de férias, pagamentos e comissões</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Esboço do projeto de automação de RH</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 16/05</span></div><span class="wt-note">Requisitos: controle de férias, pagamentos e comissões</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-rh">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-rh" style="width:0%"></div></div></div>
       </div>
       <div class="week-card" data-client="psg">
         <div class="wch"><div><div class="wct">PSG — Agente PCP</div><div class="wcs">1 tarefa planejada</div></div><span class="badge b-b">PSG</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Esboço do projeto do agente de PCP</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 23/05</span></div><span class="wt-note">Layouts BOPP nas máquinas grandes + fila de produção máq. grandes e pequenas</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Esboço do projeto do agente de PCP</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Até 23/05</span></div><span class="wt-note">Layouts BOPP nas máquinas grandes + fila de produção máq. grandes e pequenas</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-pcp">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-pcp" style="width:0%"></div></div></div>
       </div>
@@ -223,7 +257,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
       <div class="week-card" data-client="psg">
         <div class="wch"><div><div class="wct">PSG — Repasse semanal</div><div class="wcs">🔁 Toda semana</div></div><span class="badge b-b">PSG</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Repasse de tudo que foi feito na semana — PSG</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Toda sexta</span></div><span class="wt-note">Consolidar avanços, pendências e próximos passos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Repasse de tudo que foi feito na semana — PSG</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Toda sexta</span></div><span class="wt-note">Consolidar avanços, pendências e próximos passos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-rep-psg">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-rep-psg" style="width:0%"></div></div></div>
       </div>
@@ -231,7 +265,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
       <div class="week-card" data-client="dominus">
         <div class="wch"><div><div class="wct">Dominus — Repasse semanal</div><div class="wcs">🔁 Toda semana</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Repasse de tudo que foi feito na semana — Dominus</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Toda sexta</span></div><span class="wt-note">Consolidar avanços, pendências e próximos passos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Repasse de tudo que foi feito na semana — Dominus</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-w">📅 Toda sexta</span></div><span class="wt-note">Consolidar avanços, pendências e próximos passos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-rep-dom">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-rep-dom" style="width:0%"></div></div></div>
       </div>
@@ -239,7 +273,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
       <div class="week-card" data-client="psg">
         <div class="wch"><div><div class="wct">PSG — Apresentação mensal</div><div class="wcs">🔁 Todo fim de mês</div></div><span class="badge b-b">PSG</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Apresentação de resultado mensal — PSG</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Todo fim de mês</span></div><span class="wt-note">Resultados, indicadores e próximos marcos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Apresentação de resultado mensal — PSG</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Todo fim de mês</span></div><span class="wt-note">Resultados, indicadores e próximos marcos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-men-psg">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-men-psg" style="width:0%"></div></div></div>
       </div>
@@ -247,7 +281,7 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
       <div class="week-card" data-client="dominus">
         <div class="wch"><div><div class="wct">Dominus — Apresentação mensal</div><div class="wcs">🔁 Todo fim de mês</div></div><span class="badge" style="background:var(--purple-bg);color:var(--purple)">Dominus</span></div>
         <div class="week-tasks">
-          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Apresentação de resultado mensal — Dominus</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Todo fim de mês</span></div><span class="wt-note">Resultados, indicadores e próximos marcos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div></div>
+          <div class="wt" onclick="toggleTask(this)"><div class="wt-chk">✓</div><div class="wt-body"><div class="wt-text">Apresentação de resultado mensal — Dominus</div><div class="wt-meta"><span class="mo">👤 Kauê</span><span class="md md-n">📅 Todo fim de mês</span></div><span class="wt-note">Resultados, indicadores e próximos marcos</span><div class="wt-done-date">✓ Concluído em <span class="ddv"></span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div></div>
         </div>
         <div class="wsum"><span id="prog-men-dom">0 de 1 concluídas</span><div class="pbar"><div class="pfill" id="bar-men-dom" style="width:0%"></div></div></div>
       </div>
@@ -501,6 +535,8 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
           <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Montagem de layouts de produção do BOPP nas máquinas grandes</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-w">📅 29/05</span></div></div></div>
           <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Programação da fila de produção — máquinas grandes</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-w">📅 29/05</span></div></div></div>
           <div class="action"><div class="ai ai-next">○</div><div class="ab"><div class="at">Programação da fila de produção — máquinas pequenas</div><div class="am"><span class="mo">👤 Kauê</span><span class="md md-w">📅 29/05</span></div></div></div>
+          <div class="add-task-form" id="atf-pcp"></div>
+          <button class="add-task-btn" onclick="toggleAddForm('atf-pcp',this)">＋ Adicionar atividade</button>
         </div></div>
       </div>
       <div class="sec">Em pausa</div>
@@ -561,6 +597,78 @@ function updateResumo(){const all=document.querySelectorAll('.wt.done'),r=docume
 function filterWeek(c,btn){btn.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.week-card').forEach(card=>{card.style.display=(c==='all'||card.dataset.client===c)?'block':'none'})}
 function filterMarcos(c,btn){btn.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.marco-card').forEach(card=>{card.style.display=(c==='all'||card.dataset.client===c)?'block':'none'})}
 function toggleMarco(hdr){hdr.querySelector('.marco-arrow').classList.toggle('open');hdr.nextElementSibling.classList.toggle('open')}
+
+function editDate(e, btn) {
+  e.stopPropagation();
+  const wt = btn.closest('.wt,.mt-item,.action');
+  const dateEl = wt.querySelector('.md,.meta-date,.md-ok,.md-w,.md-n,.md-l');
+  if (!dateEl) return;
+  const cur = dateEl.textContent.replace('📅','').trim();
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = cur;
+  input.className = 'edit-date-input';
+  input.style.width = '90px';
+  input.onclick = e2 => e2.stopPropagation();
+  input.onkeydown = e2 => {
+    if (e2.key === 'Enter') { dateEl.textContent = '📅 ' + input.value; input.replaceWith(dateEl); }
+    if (e2.key === 'Escape') { input.replaceWith(dateEl); }
+  };
+  input.onblur = () => { dateEl.textContent = '📅 ' + input.value; input.replaceWith(dateEl); };
+  dateEl.replaceWith(input);
+  input.focus();
+  input.select();
+}
+
+function delTask(e, btn) {
+  e.stopPropagation();
+  const wt = btn.closest('.wt,.mt-item,.action');
+  if (confirm('Excluir esta tarefa?')) {
+    wt.style.transition = 'opacity 0.2s';
+    wt.style.opacity = '0';
+    setTimeout(() => { wt.remove(); updateProgress(); updateResumo(); }, 200);
+  }
+}
+
+function toggleAddForm(id, btn) {
+  const form = document.getElementById(id);
+  if (!form) return;
+  if (form.classList.contains('open')) {
+    form.classList.remove('open');
+    form.innerHTML = '';
+    btn.textContent = '＋ Adicionar atividade';
+    return;
+  }
+  form.classList.add('open');
+  btn.textContent = '✕ Cancelar';
+  form.innerHTML = `
+    <div class="atf-row">
+      <input class="atf-input" placeholder="Descrição da atividade..." id="${id}-desc">
+      <input class="atf-owner" placeholder="Responsável" value="Kauê" id="${id}-owner">
+      <input class="atf-date" placeholder="Data (ex: 30/05)" id="${id}-date">
+    </div>
+    <div class="atf-btns">
+      <button class="btn-confirm" onclick="addTask('${id}')">Adicionar</button>
+    </div>
+  `;
+  document.getElementById(id + '-desc').focus();
+}
+
+function addTask(id) {
+  const desc = document.getElementById(id + '-desc').value.trim();
+  const owner = document.getElementById(id + '-owner').value.trim() || 'Kauê';
+  const date = document.getElementById(id + '-date').value.trim() || 'Indeterminada';
+  if (!desc) { alert('Descreva a atividade.'); return; }
+  const form = document.getElementById(id);
+  const btn = form.nextElementSibling;
+  const newItem = document.createElement('div');
+  newItem.className = 'action';
+  newItem.innerHTML = `<div class="ai ai-next">○</div><div class="ab"><div class="at">${desc}</div><div class="am"><span class="mo">👤 ${owner}</span><span class="md md-n">📅 ${date}</span></div></div><div class="wt-actions"><button class="btn-edit-date" onclick="editDate(event,this)">✏️ data</button><button class="btn-del" onclick="delTask(event,this)">🗑</button></div>`;
+  form.before(newItem);
+  form.classList.remove('open');
+  form.innerHTML = '';
+  btn.textContent = '＋ Adicionar atividade';
+}
 </script>
 </body>
 </html>
