@@ -832,7 +832,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 <script>
 // ===== STATE =====
 const SK = 'opx-state-v2';
-let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}};
+let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}, lastWeekStart:''};
 
 function ls(){try{const d=JSON.parse(localStorage.getItem(SK));if(d)S=Object.assign(S,d);}catch(e){}}
 function ss(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
@@ -1313,6 +1313,29 @@ function updateHeaderDate(){
   document.getElementById('headerDate').textContent='Atualizado em '+d.toLocaleDateString('pt-BR',opts);
 }
 
+// ===== RESET SEMANAL =====
+function checkWeekReset(){
+  const weekStart = thisWeekRange().start;
+  if(!S.lastWeekStart){
+    S.lastWeekStart = weekStart;
+    ss();
+    return;
+  }
+  if(S.lastWeekStart === weekStart) return;
+  // Nova semana: remover tarefas concluídas e zerar recorrentes
+  const tasks = getTasks();
+  if(!S.deleted) S.deleted = {};
+  tasks.forEach(t => {
+    if(t.done){
+      S.deleted[t.id] = true;
+      S.tasks = (S.tasks||[]).filter(st => st.id !== t.id);
+    }
+  });
+  S.recurring = {};
+  S.lastWeekStart = weekStart;
+  ss();
+}
+
 // ===== NOVO PROJETO =====
 const BADGE_MAP = {'Em andamento':'b-am','Planejado':'b-bl','Em pausa':'b-gy','Bloqueado':'b-rd','Standby':'b-gy'};
 const CARD_CLASS_MAP = {'Bloqueado':'blk-card','Standby':'standby'};
@@ -1384,6 +1407,7 @@ function confirmNovoProj(){
 
 // ===== INIT =====
 ls();
+checkWeekReset();
 updateHeaderDate();
 renderSemana();
 applyAllRec();
