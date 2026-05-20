@@ -129,6 +129,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   .metrics{gap:8px}
   .metric{min-width:80px;padding:10px}
 }
+.btn-novo-proj{margin-left:auto;padding:5px 13px;background:var(--bl);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;flex-shrink:0}
+.btn-novo-proj:hover{background:#1450a0}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:none;align-items:center;justify-content:center}
+.modal-ov.show{display:flex}
+.modal-box{background:var(--wh);border-radius:10px;padding:24px;width:100%;max-width:440px;box-shadow:0 8px 32px rgba(0,0,0,.15);margin:16px}
+.modal-box h3{font-size:16px;font-weight:700;margin-bottom:18px}
+.modal-field{margin-bottom:12px}
+.modal-field label{display:block;font-size:11px;font-weight:600;color:var(--mu);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.modal-field input,.modal-field select{width:100%;padding:7px 10px;border:1px solid var(--bd);border-radius:5px;font-size:13px;background:var(--wh);font-family:inherit;color:var(--tx)}
+.modal-field input:focus,.modal-field select:focus{outline:none;border-color:var(--bl)}
+.modal-actions{display:flex;gap:8px;margin-top:18px}
 </style>
 </head>
 <body>
@@ -438,7 +449,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
 <!-- ===== PSG MÁQUINAS ===== -->
 <div class="tab" id="tab-maq">
-  <div class="tab-h">🔧 Máquinas e peças — PSG</div>
+  <div class="tab-h">🔧 Máquinas e peças — PSG<button class="btn-novo-proj" onclick="openNovoProj('maq')">＋ Novo projeto</button></div>
   <div class="metrics">
     <div class="metric"><div class="mv">3</div><div class="ml">Projetos</div></div>
     <div class="metric"><div class="mv" style="color:var(--gr)">2</div><div class="ml">No prazo</div></div>
@@ -549,7 +560,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
 <!-- ===== PSG BOPP ===== -->
 <div class="tab" id="tab-bopp">
-  <div class="tab-h">📦 BOPP — PSG</div>
+  <div class="tab-h">📦 BOPP — PSG<button class="btn-novo-proj" onclick="openNovoProj('bopp')">＋ Novo projeto</button></div>
   <div class="metrics">
     <div class="metric"><div class="mv">1</div><div class="ml">Ativos</div></div>
     <div class="metric"><div class="mv" style="color:var(--bl)">Jul/26</div><div class="ml">Próxima fase</div></div>
@@ -600,7 +611,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
 <!-- ===== PSG PROJETOS ===== -->
 <div class="tab" id="tab-psg-proj">
-  <div class="tab-h">🗂️ Projetos PSG</div>
+  <div class="tab-h">🗂️ Projetos PSG<button class="btn-novo-proj" onclick="openNovoProj('psg-proj')">＋ Novo projeto</button></div>
   <div class="metrics">
     <div class="metric"><div class="mv" style="color:var(--am)">2</div><div class="ml">Em andamento</div></div>
     <div class="metric"><div class="mv" style="color:var(--gy)">1</div><div class="ml">Em pausa</div></div>
@@ -682,7 +693,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
 <!-- ===== DOMINUS PROJETOS ===== -->
 <div class="tab" id="tab-dom">
-  <div class="tab-h">⚙️ Projetos — Dominus</div>
+  <div class="tab-h">⚙️ Projetos — Dominus<button class="btn-novo-proj" onclick="openNovoProj('dom')">＋ Novo projeto</button></div>
   <div class="metrics">
     <div class="metric"><div class="mv" style="color:var(--am)">1</div><div class="ml">Ativos</div></div>
     <div class="metric"><div class="mv" style="color:var(--gy)">1</div><div class="ml">Standby</div></div>
@@ -776,6 +787,47 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 </div>
 
 </main>
+
+<!-- ===== MODAL NOVO PROJETO ===== -->
+<div class="modal-ov" id="novoProj-ov" onclick="if(event.target===this)closeNovoProj()">
+  <div class="modal-box">
+    <h3>＋ Novo projeto</h3>
+    <div class="modal-field">
+      <label>Nome do projeto *</label>
+      <input type="text" id="np-nome" placeholder="Ex: Implementação de KPIs">
+    </div>
+    <div class="modal-field">
+      <label>Responsável</label>
+      <input type="text" id="np-resp" placeholder="Responsável">
+    </div>
+    <div class="modal-field">
+      <label>Cliente / Área</label>
+      <input type="text" id="np-area" placeholder="Ex: PSG Máquinas">
+    </div>
+    <div class="modal-field">
+      <label>Status</label>
+      <select id="np-status">
+        <option value="Em andamento">Em andamento</option>
+        <option value="Planejado">Planejado</option>
+        <option value="Em pausa">Em pausa</option>
+        <option value="Bloqueado">Bloqueado</option>
+        <option value="Standby">Standby</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Data de entrega (opcional)</label>
+      <input type="text" id="np-data" placeholder="DD/MM/AAAA">
+    </div>
+    <div class="modal-field">
+      <label>Descrição curta (opcional)</label>
+      <input type="text" id="np-desc" placeholder="Breve descrição do projeto">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-p" onclick="confirmNovoProj()">Criar projeto</button>
+      <button class="btn-s" onclick="closeNovoProj()">Cancelar</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ===== STATE =====
@@ -1259,6 +1311,75 @@ function updateHeaderDate(){
   const d=new Date();
   const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
   document.getElementById('headerDate').textContent='Atualizado em '+d.toLocaleDateString('pt-BR',opts);
+}
+
+// ===== NOVO PROJETO =====
+const BADGE_MAP = {'Em andamento':'b-am','Planejado':'b-bl','Em pausa':'b-gy','Bloqueado':'b-rd','Standby':'b-gy'};
+const CARD_CLASS_MAP = {'Bloqueado':'blk-card','Standby':'standby'};
+const AREA_MAP = {'maq':'PSG Máquinas','bopp':'PSG BOPP','psg-proj':'PSG Projetos','dom':'Dominus'};
+let _npTab = '';
+
+function openNovoProj(tabId){
+  _npTab = tabId;
+  document.getElementById('np-nome').value = '';
+  document.getElementById('np-resp').value = 'Kauê';
+  document.getElementById('np-area').value = AREA_MAP[tabId]||'';
+  document.getElementById('np-status').value = 'Em andamento';
+  document.getElementById('np-data').value = '';
+  document.getElementById('np-desc').value = '';
+  document.getElementById('novoProj-ov').classList.add('show');
+  setTimeout(()=>document.getElementById('np-nome').focus(),50);
+}
+
+function closeNovoProj(){
+  document.getElementById('novoProj-ov').classList.remove('show');
+}
+
+function confirmNovoProj(){
+  const nome = document.getElementById('np-nome').value.trim();
+  if(!nome){alert('O nome do projeto é obrigatório.');document.getElementById('np-nome').focus();return;}
+  const resp   = document.getElementById('np-resp').value.trim()||'Kauê';
+  const status = document.getElementById('np-status').value;
+  const data   = document.getElementById('np-data').value.trim();
+  const desc   = document.getElementById('np-desc').value.trim();
+  const tabId  = _npTab;
+
+  const badgeCls = BADGE_MAP[status]||'b-gy';
+  const cardExtra = CARD_CLASS_MAP[status]||'';
+  const dateCls   = data ? dateTagClass(data) : '';
+
+  let alertHtml = '';
+  if(status==='Bloqueado') alertHtml = `<div style="background:var(--rd-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--rd);margin-bottom:10px">🚫 ${desc||'Aguardando resolução'}</div>`;
+  else if(status==='Standby') alertHtml = `<div style="background:var(--gy-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--mu);margin-bottom:10px">⏸ ${desc||'Standby'}</div>`;
+  else if(desc) alertHtml = `<div style="font-size:12px;color:var(--mu);margin-bottom:10px">${desc}</div>`;
+
+  const card = document.createElement('div');
+  card.className = 'proj-card'+(cardExtra?' '+cardExtra:'');
+  card.innerHTML = `
+    <div class="proj-hdr">
+      <span class="proj-name">${nome}</span>
+      ${resp?`<span style="font-size:12px;color:var(--mu)">${resp}</span>`:''}
+      ${data?`<span class="dtag ${dateCls}" onclick="editDate(event,this)">${data}</span>`:''}
+      <span class="badge ${badgeCls}">${status}</span>
+    </div>
+    <div class="proj-body">
+      ${alertHtml}
+      <button class="btn-add" onclick="addTaskGroup(this,'${tabId}')">＋ Adicionar tarefa</button>
+    </div>
+  `;
+
+  const tab = document.getElementById('tab-'+tabId);
+  const projs = [...tab.querySelectorAll('.proj-card')];
+  const lastProj = projs[projs.length-1];
+  const roadmap = tab.querySelector('.roadmap');
+  const secLbl = tab.querySelector('.sec-lbl');
+
+  if(lastProj) lastProj.insertAdjacentElement('afterend', card);
+  else if(roadmap) tab.insertBefore(card, roadmap);
+  else if(secLbl) tab.insertBefore(card, secLbl);
+  else tab.appendChild(card);
+
+  closeNovoProj();
 }
 
 // ===== INIT =====
