@@ -1214,6 +1214,7 @@ function confirmAddTg(btn,tabId){
   addBtn.dataset.formOpen='';
   f.replaceWith(tg);
   tg.insertAdjacentElement('afterend',addBtn);
+  initButtons();
 }
 
 function cancelAddTg(btn,tabId){
@@ -1261,6 +1262,7 @@ function confirmAddSt(btn,uid){
   const addBtn=f.nextElementSibling;
   addBtn.dataset.formOpen='';
   f.replaceWith(row);
+  initButtons();
 }
 
 function cancelAddSt(btn){
@@ -1341,9 +1343,12 @@ const BADGE_MAP = {'Em andamento':'b-am','Planejado':'b-bl','Em pausa':'b-gy','B
 const CARD_CLASS_MAP = {'Bloqueado':'blk-card','Standby':'standby'};
 const AREA_MAP = {'maq':'PSG Máquinas','bopp':'PSG BOPP','psg-proj':'PSG Projetos','dom':'Dominus'};
 let _npTab = '';
+let _editProjCard = null;
 
 function openNovoProj(tabId){
   _npTab = tabId;
+  _editProjCard = null;
+  document.getElementById('novoProj-ov').querySelector('h3').textContent = '＋ Novo projeto';
   document.getElementById('np-nome').value = '';
   document.getElementById('np-resp').value = 'Kauê';
   document.getElementById('np-area').value = AREA_MAP[tabId]||'';
@@ -1371,11 +1376,37 @@ function confirmNovoProj(){
   const cardExtra = CARD_CLASS_MAP[status]||'';
   const dateCls   = data ? dateTagClass(data) : '';
 
-  let alertHtml = '';
-  if(status==='Bloqueado') alertHtml = `<div style="background:var(--rd-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--rd);margin-bottom:10px">🚫 ${desc||'Aguardando resolução'}</div>`;
-  else if(status==='Standby') alertHtml = `<div style="background:var(--gy-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--mu);margin-bottom:10px">⏸ ${desc||'Standby'}</div>`;
-  else if(desc) alertHtml = `<div style="font-size:12px;color:var(--mu);margin-bottom:10px">${desc}</div>`;
+  const buildAlertHtml = ()=>{
+    if(status==='Bloqueado') return `<div class="proj-alert" style="background:var(--rd-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--rd);margin-bottom:10px">🚫 ${desc||'Aguardando resolução'}</div>`;
+    if(status==='Standby')  return `<div class="proj-alert" style="background:var(--gy-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--mu);margin-bottom:10px">⏸ ${desc||'Standby'}</div>`;
+    if(desc) return `<div class="proj-alert" style="font-size:12px;color:var(--mu);margin-bottom:10px">${desc}</div>`;
+    return '';
+  };
 
+  // ---- MODO EDIÇÃO ----
+  if(_editProjCard){
+    const card = _editProjCard;
+    _editProjCard = null;
+    card.className = 'proj-card'+(cardExtra?' '+cardExtra:'');
+    const hdr = card.querySelector('.proj-hdr');
+    hdr.removeAttribute('data-btns');
+    hdr.innerHTML = `
+      <span class="proj-name">${nome}</span>
+      ${resp?`<span style="font-size:12px;color:var(--mu)">${resp}</span>`:''}
+      ${data?`<span class="dtag ${dateCls}" onclick="editDate(event,this)">${data}</span>`:''}
+      <span class="badge ${badgeCls}">${status}</span>
+    `;
+    const body = card.querySelector('.proj-body');
+    const existingAlert = body.querySelector('.proj-alert');
+    const alertHtml = buildAlertHtml();
+    if(existingAlert){ if(alertHtml) existingAlert.outerHTML=alertHtml; else existingAlert.remove(); }
+    else if(alertHtml) body.insertAdjacentHTML('afterbegin', alertHtml);
+    initButtons();
+    closeNovoProj();
+    return;
+  }
+
+  // ---- MODO CRIAÇÃO ----
   const card = document.createElement('div');
   card.className = 'proj-card'+(cardExtra?' '+cardExtra:'');
   card.innerHTML = `
@@ -1386,7 +1417,7 @@ function confirmNovoProj(){
       <span class="badge ${badgeCls}">${status}</span>
     </div>
     <div class="proj-body">
-      ${alertHtml}
+      ${buildAlertHtml()}
       <button class="btn-add" onclick="addTaskGroup(this,'${tabId}')">＋ Adicionar tarefa</button>
     </div>
   `;
@@ -1402,7 +1433,123 @@ function confirmNovoProj(){
   else if(secLbl) tab.insertBefore(card, secLbl);
   else tab.appendChild(card);
 
+  initButtons();
   closeNovoProj();
+}
+
+// ===== EDITAR E EXCLUIR =====
+function initButtons(){
+  document.querySelectorAll('.proj-hdr:not([data-btns])').forEach(hdr=>{
+    hdr.setAttribute('data-btns','1');
+    hdr.insertAdjacentHTML('beforeend',
+      '<button class="btn-ic" onclick="openEditProj(this)" title="Editar projeto">✏️</button>'+
+      '<button class="btn-ic del" onclick="deleteProj(this)" title="Excluir projeto">🗑</button>'
+    );
+  });
+  document.querySelectorAll('.tg-hdr:not([data-btns])').forEach(hdr=>{
+    hdr.setAttribute('data-btns','1');
+    hdr.insertAdjacentHTML('beforeend',
+      '<button class="btn-ic" onclick="editTg(event,this)" title="Editar tarefa">✏️</button>'+
+      '<button class="btn-ic del" onclick="deleteTg(event,this)" title="Excluir tarefa">🗑</button>'
+    );
+  });
+  document.querySelectorAll('.st-row:not([data-btns])').forEach(row=>{
+    row.setAttribute('data-btns','1');
+    const del=row.querySelector('.btn-ic.del');
+    const eb=document.createElement('button');
+    eb.className='btn-ic'; eb.title='Editar subtarefa'; eb.textContent='✏️';
+    eb.onclick=()=>editSt(eb);
+    if(del) del.insertAdjacentElement('beforebegin',eb);
+    else row.appendChild(eb);
+  });
+}
+
+function openEditProj(btn){
+  const card=btn.closest('.proj-card');
+  const hdr=card.querySelector('.proj-hdr');
+  _editProjCard=card;
+  _npTab=card.closest('.tab')?.id?.replace('tab-','')||'';
+  document.getElementById('np-nome').value=hdr.querySelector('.proj-name')?.textContent||'';
+  const respEl=[...hdr.querySelectorAll('span')].find(s=>s.style.color&&!s.classList.contains('badge')&&!s.classList.contains('proj-name')&&!s.classList.contains('dtag'));
+  document.getElementById('np-resp').value=respEl?.textContent||'';
+  const badge=hdr.querySelector('.badge');
+  document.getElementById('np-status').value=badge?.textContent?.trim()||'Em andamento';
+  document.getElementById('np-data').value=hdr.querySelector('.dtag')?.textContent||'';
+  document.getElementById('np-area').value=AREA_MAP[_npTab]||'';
+  document.getElementById('np-desc').value='';
+  document.getElementById('novoProj-ov').querySelector('h3').textContent='✏️ Editar projeto';
+  document.getElementById('novoProj-ov').classList.add('show');
+  setTimeout(()=>document.getElementById('np-nome').focus(),50);
+}
+
+function deleteProj(btn){
+  if(!confirm('Excluir este projeto e todas as suas tarefas?')) return;
+  btn.closest('.proj-card').remove();
+}
+
+function editTg(e,btn){
+  e.stopPropagation();
+  const hdr=btn.closest('.tg-hdr');
+  if(hdr.dataset.editing==='1') return;
+  hdr.dataset.editing='1';
+  const origClick=hdr.getAttribute('onclick');
+  hdr.removeAttribute('onclick');
+  hdr.style.cursor='default';
+  const titleSpan=hdr.querySelector('.tg-title');
+  const respSpan=[...hdr.querySelectorAll('span')].find(s=>s.style.fontSize&&!s.classList.contains('tg-ar')&&!s.classList.contains('tg-title')&&!s.classList.contains('dtag'));
+  const dtag=hdr.querySelector('.dtag');
+  const mk=(val,w)=>{const i=document.createElement('input');i.type='text';i.value=val;i.className='dei';i.style.cssText=w;i.onclick=ev=>ev.stopPropagation();return i;};
+  const ti=mk(titleSpan.textContent,'flex:1;width:auto');
+  const ri=respSpan?mk(respSpan.textContent,'width:90px'):null;
+  const di=dtag?mk(dtag.textContent,'width:65px'):null;
+  const restore=(save)=>{
+    if(save){
+      const t=ti.value.trim();if(!t){alert('Informe o título.');return false;}
+      titleSpan.textContent=t;
+      if(respSpan&&ri) respSpan.textContent=ri.value.trim();
+      if(dtag&&di){dtag.textContent=di.value.trim();dtag.className='dtag '+(di.value.trim()?dateTagClass(di.value.trim()):'indef');}
+    }
+    ti.replaceWith(titleSpan);
+    if(respSpan&&ri) ri.replaceWith(respSpan);
+    if(dtag&&di) di.replaceWith(dtag);
+    sb.remove();cb.remove();
+    hdr.setAttribute('onclick',origClick);
+    hdr.style.cursor='';
+    hdr.dataset.editing='';
+    return true;
+  };
+  const sb=document.createElement('button');
+  sb.className='btn-p';sb.textContent='✓';sb.style.cssText='padding:3px 8px;font-size:12px;flex-shrink:0';
+  sb.onclick=ev=>{ev.stopPropagation();restore(true);};
+  const cb=document.createElement('button');
+  cb.className='btn-s';cb.textContent='✕';cb.style.cssText='padding:3px 8px;font-size:12px;flex-shrink:0';
+  cb.onclick=ev=>{ev.stopPropagation();restore(false);};
+  titleSpan.replaceWith(ti);
+  if(respSpan&&ri) respSpan.replaceWith(ri);
+  if(dtag&&di) dtag.replaceWith(di);
+  hdr.appendChild(sb);hdr.appendChild(cb);
+  ti.focus();ti.select();
+}
+
+function deleteTg(e,btn){
+  e.stopPropagation();
+  if(!confirm('Excluir esta tarefa e suas subtarefas?')) return;
+  btn.closest('.tg').remove();
+}
+
+function editSt(btn){
+  const row=btn.closest('.st-row');
+  if(row.dataset.editing==='1') return;
+  row.dataset.editing='1';
+  const sp=row.querySelector('.st-text');
+  const orig=sp.textContent;
+  const inp=document.createElement('input');
+  inp.type='text';inp.value=orig;inp.className='dei';
+  inp.style.cssText='flex:1;width:auto;min-width:80px';
+  const done=()=>{sp.textContent=inp.value.trim()||orig;inp.replaceWith(sp);row.dataset.editing='';};
+  inp.onkeydown=ev=>{if(ev.key==='Enter')done();if(ev.key==='Escape'){sp.textContent=orig;inp.replaceWith(sp);row.dataset.editing='';}};
+  inp.onblur=()=>{if(row.dataset.editing==='1')done();};
+  sp.replaceWith(inp);inp.focus();inp.select();
 }
 
 // ===== INIT =====
@@ -1411,6 +1558,7 @@ checkWeekReset();
 updateHeaderDate();
 renderSemana();
 applyAllRec();
+initButtons();
 </script>
 </body>
 </html>
