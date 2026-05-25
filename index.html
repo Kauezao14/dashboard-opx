@@ -140,6 +140,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 .modal-field input,.modal-field select{width:100%;padding:7px 10px;border:1px solid var(--bd);border-radius:5px;font-size:13px;background:var(--wh);font-family:inherit;color:var(--tx)}
 .modal-field input:focus,.modal-field select:focus{outline:none;border-color:var(--bl)}
 .modal-actions{display:flex;gap:8px;margin-top:18px}
+.week-reminder{display:none;align-items:center;gap:12px;background:#fffbe6;border:1px solid #f5c842;border-radius:8px;padding:12px 16px;margin-bottom:16px}
+.week-reminder.show{display:flex}
+.week-reminder-txt{flex:1;font-size:13px}
 </style>
 </head>
 <body>
@@ -176,6 +179,14 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 <!-- ===== SEMANA ATUAL ===== -->
 <div class="tab active" id="tab-semana">
   <div class="tab-h">📋 Semana atual</div>
+
+  <div class="week-reminder" id="week-reminder">
+    <span style="font-size:20px">🔔</span>
+    <div class="week-reminder-txt">
+      <strong>Nova semana!</strong> Revise e atualize as 5 próximas entregas antes de começar.
+    </div>
+    <button class="btn-p" onclick="dismissWeeklyReminder()" style="white-space:nowrap;flex-shrink:0">Já atualizei ✓</button>
+  </div>
 
   <div class="card">
     <div class="card-t">5 próximas entregas</div>
@@ -832,7 +843,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 <script>
 // ===== STATE =====
 const SK = 'opx-state-v2';
-let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}, lastWeekStart:''};
+let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}, lastWeekStart:'', weeklyReminderDue:false};
 
 function ls(){try{const d=JSON.parse(localStorage.getItem(SK));if(d)S=Object.assign(S,d);}catch(e){}}
 function ss(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
@@ -1324,7 +1335,7 @@ function checkWeekReset(){
     return;
   }
   if(S.lastWeekStart === weekStart) return;
-  // Nova semana: remover tarefas concluídas e zerar recorrentes
+  // Nova semana: remover tarefas concluídas, zerar recorrentes e ativar lembrete
   const tasks = getTasks();
   if(!S.deleted) S.deleted = {};
   tasks.forEach(t => {
@@ -1334,8 +1345,21 @@ function checkWeekReset(){
     }
   });
   S.recurring = {};
+  S.weeklyReminderDue = true;
   S.lastWeekStart = weekStart;
   ss();
+}
+
+function renderWeeklyReminder(){
+  const el = document.getElementById('week-reminder');
+  if(!el) return;
+  el.classList.toggle('show', !!S.weeklyReminderDue);
+}
+
+function dismissWeeklyReminder(){
+  S.weeklyReminderDue = false;
+  ss();
+  renderWeeklyReminder();
 }
 
 // ===== NOVO PROJETO =====
@@ -1559,6 +1583,7 @@ updateHeaderDate();
 renderSemana();
 applyAllRec();
 initButtons();
+renderWeeklyReminder();
 </script>
 </body>
 </html>
