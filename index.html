@@ -843,7 +843,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 <script>
 // ===== STATE =====
 const SK = 'opx-state-v2';
-let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}, lastWeekStart:'', weeklyReminderDue:false};
+let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}, lastWeekStart:'', weeklyReminderDue:true};
 
 function ls(){try{const d=JSON.parse(localStorage.getItem(SK));if(d)S=Object.assign(S,d);}catch(e){}}
 function ss(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
