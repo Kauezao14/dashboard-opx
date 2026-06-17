@@ -143,6 +143,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 .week-reminder{display:none;align-items:center;gap:12px;background:#fffbe6;border:1px solid #f5c842;border-radius:8px;padding:12px 16px;margin-bottom:16px}
 .week-reminder.show{display:flex}
 .week-reminder-txt{flex:1;font-size:13px}
+.b-ca{background:#f0efed;color:#6b6b6b;text-decoration:line-through}
+.proj-card.cancelled-card{border-left:4px solid #9ca3af;opacity:.75}
+.hist-section{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);padding:14px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -171,6 +174,10 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   <div class="sb-sec">
     <div class="sb-lbl">Dominus</div>
     <div class="sb-item" data-tab="dom">⚙️ Projetos</div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Arquivo</div>
+    <div class="sb-item" data-tab="historico">📜 Histórico</div>
   </div>
 </nav>
 
@@ -258,103 +265,57 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   </div>
   <div id="ms-content">
 
-  <div class="ms-mhdr">Maio 2026</div>
-
-  <div class="ms-card" data-client="psg">
-    <div class="ms-hdr" onclick="toggleMs(this)">
-      <span class="ms-ar">▶</span>
-      <span class="ms-date">22/05</span>
-      <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
-      <span class="ms-title">Conclusão do treinamento dos Gustavos</span>
-      <span class="badge b-am">Em andamento</span>
-      <button class="btn-ic del" onclick="deleteMsCard(this)" title="Excluir">🗑</button>
-    </div>
-    <div class="ms-body">
-      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Dobradeira · Laminadora 380</span><span class="ms-resp">Consultor + Gustavos</span><span class="dtag week" onclick="editDate(this)">22/05</span></div>
-      <div class="ms-item"><span class="ms-ic ic-act">→</span><span class="ms-txt">Vincadeira · Canteadeira · Furador</span><span class="ms-resp">Consultor + Gustavos</span><span class="dtag week" onclick="editDate(this)">22/05</span></div>
-    </div>
-  </div>
-
-  <div class="ms-card" data-client="psg">
-    <div class="ms-hdr" onclick="toggleMs(this)">
-      <span class="ms-ar">▶</span>
-      <span class="ms-date">29/05</span>
-      <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
-      <span class="ms-title">Produção das máquinas pendentes</span>
-      <span class="badge b-am">Em andamento</span>
-      <button class="btn-ic del" onclick="deleteMsCard(this)" title="Excluir">🗑</button>
-    </div>
-    <div class="ms-body">
-      <div class="ms-item"><span class="ms-ic ic-act">→</span><span class="ms-txt">Canteadeira · Vincadeira · Furador · Dobradeira · Laminadora 380/680/520 · Polaseal</span><span class="ms-resp">Gustavos</span><span class="dtag future" onclick="editDate(this)">29/05</span></div>
-    </div>
-  </div>
-
-  <div class="ms-card" data-client="psg">
-    <div class="ms-hdr" onclick="toggleMs(this)">
-      <span class="ms-ar">▶</span>
-      <span class="ms-date">15/05→22/05</span>
-      <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
-      <span class="ms-title">Estabilização do piloto de peças internas</span>
-      <span class="badge b-bl">Piloto</span>
-      <button class="btn-ic del" onclick="deleteMsCard(this)" title="Excluir">🗑</button>
-    </div>
-    <div class="ms-body">
-      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Peças críticas internas levantadas</span><span class="ms-resp">Consultor + Vitor</span></div>
-      <div class="ms-item"><span class="ms-ic ic-act">→</span><span class="ms-txt">Plano de produção torno e fresadora</span><span class="ms-resp">Vitor</span><span class="dtag urgent" onclick="editDate(this)">15/05</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Avaliação do piloto</span><span class="ms-resp">Consultor + Vitor</span><span class="dtag urgent" onclick="editDate(this)">15/05</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Estabilização e rotina</span><span class="ms-resp">Consultor + Vitor</span><span class="dtag week" onclick="editDate(this)">22/05</span></div>
-    </div>
-  </div>
+  <div class="ms-mhdr">Junho–Julho 2026</div>
 
   <div class="ms-card" data-client="dom">
     <div class="ms-hdr" onclick="toggleMs(this)">
       <span class="ms-ar">▶</span>
-      <span class="ms-date">29/05</span>
+      <span class="ms-date">14/07</span>
       <span class="badge b-bl" style="font-size:10px">Dominus</span>
-      <span class="ms-title">Felipe assume planejamento completo</span>
-      <span class="badge b-gr">Quase concluído</span>
+      <span class="ms-title">Treinamento Emanuel</span>
+      <span class="badge b-am">Em andamento</span>
       <button class="btn-ic del" onclick="deleteMsCard(this)" title="Excluir">🗑</button>
     </div>
     <div class="ms-body">
-      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Programação diária</span><span class="ms-resp">Consultor + Felipe</span></div>
-      <div class="ms-item"><span class="ms-ic ic-act">→</span><span class="ms-txt">Treinar programação semanal</span><span class="ms-resp">Consultor + Felipe</span><span class="dtag future" onclick="editDate(this)">29/05</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Treinar planejamento do molde inteiro</span><span class="ms-resp">Consultor + Felipe</span><span class="dtag future" onclick="editDate(this)">26/06</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Delegar e acompanhar planejamento completo</span><span class="ms-resp">Consultor + Felipe</span><span class="dtag future" onclick="editDate(this)">26/06</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Programação diária</span><span class="ms-resp">Consultor + Emanuel</span></div>
+      <div class="ms-item"><span class="ms-ic ic-act">→</span><span class="ms-txt">Programação semanal</span><span class="ms-resp">Consultor + Emanuel</span><span class="dtag future" onclick="editDate(this)">30/06</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Planejamento do molde inteiro</span><span class="ms-resp">Consultor + Emanuel</span></div>
+      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Delegar e acompanhar planejamento completo</span><span class="ms-resp">Consultor + Emanuel</span><span class="dtag future" onclick="editDate(this)">14/07</span></div>
     </div>
   </div>
-
-  <div class="ms-mhdr">Junho 2026</div>
 
   <div class="ms-card" data-client="psg">
     <div class="ms-hdr" onclick="toggleMs(this)">
       <span class="ms-ar">▶</span>
-      <span class="ms-date">12/06</span>
+      <span class="ms-date">Sem previsão</span>
       <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
       <span class="ms-title">Implementação das 3 reuniões de gestão</span>
-      <span class="badge b-bl">Planejado</span>
+      <span class="badge b-gy">Standby</span>
       <button class="btn-ic del" onclick="deleteMsCard(this)" title="Excluir">🗑</button>
     </div>
     <div class="ms-body">
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Reunião diária — equipe operacional + supervisor</span><span class="ms-resp">Consultor</span><span class="dtag future" onclick="editDate(this)">12/06</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Reunião semanal — time tático</span><span class="ms-resp">Consultor</span><span class="dtag future" onclick="editDate(this)">12/06</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Reunião mensal — gerência + supervisor + tático</span><span class="ms-resp">Consultor</span><span class="dtag future" onclick="editDate(this)">12/06</span></div>
+      <div style="background:var(--gy-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--mu);margin-bottom:8px">⏸ Standby — aguardando chegada do container</div>
+      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Reunião diária — equipe operacional + supervisor</span><span class="ms-resp">Consultor</span></div>
+      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Reunião semanal — time tático</span><span class="ms-resp">Consultor</span></div>
+      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Reunião mensal — gerência + supervisor + tático</span><span class="ms-resp">Consultor</span></div>
     </div>
   </div>
-
-  <div class="ms-mhdr">Julho 2026</div>
 
   <div class="ms-card" data-client="dom">
     <div class="ms-hdr" onclick="toggleMs(this)">
       <span class="ms-ar">▶</span>
-      <span class="ms-date">03/07→17/07</span>
+      <span class="ms-date">07/07</span>
       <span class="badge b-bl" style="font-size:10px">Dominus</span>
       <span class="ms-title">Controle de velocidade das máquinas</span>
-      <span class="badge b-rd">Bloqueado</span>
+      <span class="badge b-am">Em andamento</span>
       <button class="btn-ic del" onclick="deleteMsCard(this)" title="Excluir">🗑</button>
     </div>
     <div class="ms-body">
-      <div class="ms-item"><span class="ms-ic ic-blk" style="color:var(--rd)">!</span><span class="ms-txt">Coletar dados de base</span><span class="ms-resp">Indefinido</span><span class="dtag future" onclick="editDate(this)">03/07</span></div>
-      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Analisar quebra de ferramentas x velocidade</span><span class="ms-resp">Indefinido</span><span class="dtag future" onclick="editDate(this)">17/07</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Coleta de dados de base</span><span class="ms-resp">Kauê</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Análise de quebras x velocidade</span><span class="ms-resp">Kauê</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Aumento de velocidade aplicado</span><span class="ms-resp">Kauê</span></div>
+      <div class="ms-item"><span class="ms-ic ic-act">→</span><span class="ms-txt">Nova coleta com nova velocidade</span><span class="ms-resp">Kauê</span><span class="dtag future" onclick="editDate(this)">07/07</span></div>
+      <div class="ms-item"><span class="ms-ic ic-plan">○</span><span class="ms-txt">Avaliação do aumento de velocidade</span><span class="ms-resp">Kauê</span><span class="dtag future" onclick="editDate(this)">07/07</span></div>
     </div>
   </div>
 
@@ -392,53 +353,58 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
       <!-- PSG Máquinas -->
       <div class="g-section">PSG — Máquinas</div>
-      <div class="g-lbl">Treinamento Gustavos</div>
-      <div class="g-bar active" style="grid-column:2/3">Em andamento</div>
-      <div style="grid-column:3/14"></div>
+      <div class="g-lbl">Análise e revisão máquinas</div>
+      <div style="grid-column:2/3"></div>
+      <div class="g-bar active" style="grid-column:3/5">Em andamento</div>
+      <div style="grid-column:5/14"></div>
 
-      <div class="g-lbl">Estoque / Piloto</div>
-      <div class="g-bar active" style="grid-column:2/4">Em andamento</div>
-      <div style="grid-column:4/14"></div>
+      <div class="g-lbl">Estoque peças críticas</div>
+      <div style="grid-column:2/3"></div>
+      <div class="g-bar active" style="grid-column:3/5">Em andamento</div>
+      <div style="grid-column:5/14"></div>
 
       <div class="g-lbl">Reuniões (3 níveis)</div>
-      <div style="grid-column:2/3"></div>
-      <div class="g-bar planned" style="grid-column:3/4">Planejado</div>
-      <div style="grid-column:4/14"></div>
+      <div style="grid-column:2/4"></div>
+      <div class="g-bar standby" style="grid-column:4/5">Standby</div>
+      <div style="grid-column:5/14"></div>
 
       <div class="g-lbl">WPO área máquinas</div>
       <div style="grid-column:2/5"></div>
       <div class="g-bar planned" style="grid-column:5/9">Planejado</div>
       <div style="grid-column:9/14"></div>
 
-      <div class="g-lbl">Procedimentos / Manuais</div>
-      <div style="grid-column:2/8"></div>
-      <div class="g-bar planned" style="grid-column:8/14">Planejado</div>
-
       <!-- PSG BOPP -->
       <div class="g-section">PSG — BOPP</div>
       <div class="g-lbl">Pilar de manutenção</div>
       <div style="grid-column:2/4"></div>
-      <div class="g-bar planned" style="grid-column:4/7">Planejado</div>
+      <div class="g-bar standby" style="grid-column:4/7">Standby</div>
       <div style="grid-column:7/14"></div>
 
       <div class="g-lbl">Treinamento BOPP</div>
-      <div style="grid-column:2/6"></div>
-      <div class="g-bar planned" style="grid-column:6/11">Planejado</div>
-      <div style="grid-column:11/14"></div>
+      <div style="grid-column:2/5"></div>
+      <div class="g-bar standby" style="grid-column:5/10">Standby</div>
+      <div style="grid-column:10/14"></div>
 
       <!-- Dominus -->
       <div class="g-section">Dominus</div>
-      <div class="g-lbl">Treinamento Felipe</div>
-      <div class="g-bar active" style="grid-column:2/4">Em andamento</div>
-      <div style="grid-column:4/14"></div>
+      <div class="g-lbl">Treinamento Emanuel</div>
+      <div style="grid-column:2/3"></div>
+      <div class="g-bar active" style="grid-column:3/5">Em andamento</div>
+      <div style="grid-column:5/14"></div>
 
-      <div class="g-lbl">Procedimentos Wellington</div>
-      <div class="g-bar standby" style="grid-column:2/5">Standby</div>
+      <div class="g-lbl">Procedimentos</div>
+      <div style="grid-column:2/3"></div>
+      <div class="g-bar active" style="grid-column:3/5">Em andamento</div>
       <div style="grid-column:5/14"></div>
 
       <div class="g-lbl">Velocidade máquinas</div>
-      <div style="grid-column:2/4"></div>
-      <div class="g-bar blk" style="grid-column:4/5">Bloqueado</div>
+      <div style="grid-column:2/3"></div>
+      <div class="g-bar active" style="grid-column:3/5">Em andamento</div>
+      <div style="grid-column:5/14"></div>
+
+      <div class="g-lbl">Reuniões de gestão</div>
+      <div style="grid-column:2/3"></div>
+      <div class="g-bar active" style="grid-column:3/5">Em andamento</div>
       <div style="grid-column:5/14"></div>
     </div>
 
@@ -452,54 +418,120 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
   <div class="attn">
     <div class="card-t">⚠️ Pontos de atenção</div>
-    <div class="attn-item"><span style="font-size:16px">⚠️</span><span>Piloto plano de produção PSG Máquinas — avaliação <strong>15/05</strong></span></div>
-    <div class="attn-item"><span style="font-size:16px">🚫</span><span>Responsável indefinido para controle de velocidade das máquinas (Dominus) — definir até <strong>29/05</strong></span></div>
-    <div class="attn-item"><span style="font-size:16px">📅</span><span>Marco <strong>29/05</strong> (PSG Máquinas) é crítico — sua conclusão libera início das reuniões em junho</span></div>
+    <div class="attn-item"><span style="font-size:16px">⏸</span><span>Reuniões de gestão PSG — standby aguardando chegada do container (<strong>sem previsão</strong>)</span></div>
+    <div class="attn-item"><span style="font-size:16px">📅</span><span>Procedimentos Dominus (Emanuel) — prazo <strong>07/07</strong></span></div>
+    <div class="attn-item"><span style="font-size:16px">📅</span><span>Controle de velocidade (Dominus) — nova coleta e avaliação até <strong>07/07</strong></span></div>
+    <div class="attn-item"><span style="font-size:16px">📅</span><span>Treinamento Emanuel — delegação e acompanhamento até <strong>14/07</strong></span></div>
   </div>
+</div>
+
+<!-- ===== HISTÓRICO ===== -->
+<div class="tab" id="tab-historico">
+  <div class="tab-h">📜 Histórico</div>
+  <p style="font-size:13px;color:var(--mu);margin:0 0 16px">Marcos e projetos concluídos ou cancelados — arquivados para referência.</p>
+
+  <div class="hist-section">PSG Máquinas — Marcos concluídos</div>
+
+  <div class="ms-card" data-client="psg" style="opacity:.85">
+    <div class="ms-hdr" onclick="toggleMs(this)">
+      <span class="ms-ar">▶</span>
+      <span class="ms-date">22/05 ✓</span>
+      <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
+      <span class="ms-title">Conclusão do treinamento dos Gustavos</span>
+      <span class="badge b-gr">Concluído</span>
+    </div>
+    <div class="ms-body">
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Dobradeira</span><span class="ms-resp">Consultor + Gustavos</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Laminadora 380</span><span class="ms-resp">Consultor + Gustavos</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Vincadeira · Canteadeira · Furador</span><span class="ms-resp">Consultor + Gustavos</span></div>
+    </div>
+  </div>
+
+  <div class="ms-card" data-client="psg" style="opacity:.85">
+    <div class="ms-hdr" onclick="toggleMs(this)">
+      <span class="ms-ar">▶</span>
+      <span class="ms-date">29/05 ✓</span>
+      <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
+      <span class="ms-title">Produção das máquinas pendentes</span>
+      <span class="badge b-gr">Concluído</span>
+    </div>
+    <div class="ms-body">
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Canteadeira · Vincadeira · Furador · Dobradeira · Laminadora 380/680/520 · Polaseal</span><span class="ms-resp">Gustavos</span></div>
+    </div>
+  </div>
+
+  <div class="ms-card" data-client="psg" style="opacity:.85">
+    <div class="ms-hdr" onclick="toggleMs(this)">
+      <span class="ms-ar">▶</span>
+      <span class="ms-date">Mai/2026</span>
+      <span class="badge b-am" style="font-size:10px">PSG Máquinas</span>
+      <span class="ms-title">Piloto de peças internas</span>
+      <span class="badge b-gr">Concluído</span>
+    </div>
+    <div class="ms-body">
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Peças críticas internas levantadas</span><span class="ms-resp">Consultor + Vitor</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done" style="color:var(--rd)">✗</span><span class="ms-txt" style="text-decoration:line-through;color:var(--mu)">Plano de produção torno e fresadora</span><span class="ms-resp" style="color:var(--rd)">Cancelado</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Avaliação do piloto</span><span class="ms-resp">Consultor + Vitor</span></div>
+      <div class="ms-item"><span class="ms-ic ic-done">✓</span><span class="ms-txt">Estabilização e rotina</span><span class="ms-resp">Consultor + Vitor</span></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ===== PSG MÁQUINAS ===== -->
 <div class="tab" id="tab-maq">
   <div class="tab-h">🔧 Máquinas e peças — PSG<button class="btn-novo-proj" onclick="openNovoProj('maq')">＋ Novo projeto</button></div>
   <div class="metrics">
-    <div class="metric"><div class="mv">3</div><div class="ml">Projetos</div></div>
-    <div class="metric"><div class="mv" style="color:var(--gr)">2</div><div class="ml">No prazo</div></div>
-    <div class="metric"><div class="mv" style="color:var(--am)">1</div><div class="ml">Em revisão</div></div>
-    <div class="metric"><div class="mv" style="color:var(--gy)">0</div><div class="ml">Bloqueado</div></div>
+    <div class="metric"><div class="mv">2</div><div class="ml">Ativos</div></div>
+    <div class="metric"><div class="mv" style="color:var(--am)">1</div><div class="ml">Em andamento</div></div>
+    <div class="metric"><div class="mv" style="color:var(--gy)">1</div><div class="ml">Em pausa</div></div>
+    <div class="metric"><div class="mv" style="color:var(--rd)">0</div><div class="ml">Bloqueado</div></div>
   </div>
 
   <!-- Projeto 1 -->
   <div class="proj-card">
     <div class="proj-hdr">
-      <span class="proj-name">Treinamento técnico — Gustavos</span>
-      <span class="badge b-gr">No prazo</span>
+      <span class="proj-name">Análise de máquinas — revisão e peças</span>
+      <span class="badge b-am">Em andamento</span>
     </div>
     <div class="proj-body">
-      <div class="tg" id="tg-maq-1">
+      <div class="tg">
         <div class="tg-hdr" onclick="toggleTg(this)">
           <span class="tg-ar">▶</span>
-          <span class="tg-title">Montagem por máquina</span>
+          <span class="tg-title">Treinamento técnico (concluído)</span>
           <span style="font-size:11px;color:var(--mu)">Consultor + Gustavos</span>
-          <span class="dtag week" onclick="editDate(event,this)">22/05</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row done" id="st-maq-1-1"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Dobradeira</span></div>
-          <div class="st-row done" id="st-maq-1-2"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Laminadora 380</span></div>
-          <div class="st-row" id="st-maq-1-3"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Vincadeira</span><span class="dtag week" onclick="editDate(event,this)">22/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-1-4"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Canteadeira</span><span class="dtag week" onclick="editDate(event,this)">22/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-1-5"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Furador</span><span class="dtag week" onclick="editDate(event,this)">22/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Dobradeira</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Laminadora 380</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Vincadeira</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Canteadeira</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Furador</span></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
-      <div class="tg" id="tg-maq-2">
+      <div class="tg">
         <div class="tg-hdr" onclick="toggleTg(this)">
           <span class="tg-ar">▶</span>
-          <span class="tg-title">Produção de máquinas</span>
+          <span class="tg-title">Produção de máquinas (concluída)</span>
           <span style="font-size:11px;color:var(--mu)">Gustavos</span>
-          <span class="dtag future" onclick="editDate(event,this)">29/05</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row" id="st-maq-2-1"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Canteadeira · Vincadeira · Furador · Dobradeira · Laminadora 380 · Laminadora 680 · Laminadora 520 · Polaseal</span><span class="dtag future" onclick="editDate(event,this)">29/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Canteadeira · Vincadeira · Furador · Dobradeira · Laminadora 380 · Laminadora 680 · Laminadora 520 · Polaseal</span></div>
+          <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
+        </div>
+      </div>
+      <div class="tg">
+        <div class="tg-hdr" onclick="toggleTg(this)">
+          <span class="tg-ar">▶</span>
+          <span class="tg-title">Análise e levantamento de revisão/peças</span>
+          <span style="font-size:11px;color:var(--mu)">Kauê</span>
+          <span class="dtag future" onclick="editDate(event,this)">08/07</span>
+        </div>
+        <div class="tg-body open">
+          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Levantamento das máquinas que precisam de revisão</span><span class="dtag future" onclick="editDate(event,this)">08/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Levantamento de peças faltantes por máquina</span><span class="dtag future" onclick="editDate(event,this)">08/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Plano de ação para revisões e reposição</span><span class="dtag future" onclick="editDate(event,this)">08/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -511,49 +543,22 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   <div class="proj-card">
     <div class="proj-hdr">
       <span class="proj-name">Estoque de peças críticas — importação</span>
-      <span class="badge b-am">Em revisão</span>
+      <span class="badge b-am">Em andamento</span>
     </div>
     <div class="proj-body">
-      <div class="tg" id="tg-maq-3">
+      <div class="tg">
         <div class="tg-hdr" onclick="toggleTg(this)">
           <span class="tg-ar">▶</span>
           <span class="tg-title">Contagem e lançamento</span>
           <span style="font-size:11px;color:var(--mu)">Vitor</span>
-          <span class="dtag urgent" onclick="editDate(event,this)">15/05</span>
+          <span class="dtag future" onclick="editDate(event,this)">29/06</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row done" id="st-maq-3-1"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Levantamento das peças críticas</span></div>
-          <div class="st-row" id="st-maq-3-2"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Contagem física das peças</span><span class="dtag urgent" onclick="editDate(event,this)">15/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-3-3"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Conferência estoque x sistema</span><span class="dtag urgent" onclick="editDate(event,this)">15/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-3-4"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Lançamento de divergências</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-3-5"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Formalizar rotina periódica do Vitor</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
-        </div>
-      </div>
-      <button class="btn-add" onclick="addTaskGroup(this,'maq')">＋ Adicionar tarefa</button>
-    </div>
-  </div>
-
-  <!-- Projeto 3 -->
-  <div class="proj-card">
-    <div class="proj-hdr">
-      <span class="proj-name">Plano de produção — peças internas</span>
-      <span class="badge b-bl">Piloto</span>
-    </div>
-    <div class="proj-body">
-      <div class="tg" id="tg-maq-4">
-        <div class="tg-hdr" onclick="toggleTg(this)">
-          <span class="tg-ar">▶</span>
-          <span class="tg-title">Execução do piloto</span>
-          <span style="font-size:11px;color:var(--mu)">Vitor</span>
-          <span class="dtag urgent" onclick="editDate(event,this)">15/05</span>
-        </div>
-        <div class="tg-body open">
-          <div class="st-row done" id="st-maq-4-1"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Peças críticas internas levantadas</span></div>
-          <div class="st-row" id="st-maq-4-2"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Criar plano torno</span><span class="dtag urgent" onclick="editDate(event,this)">15/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-4-3"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Criar plano fresadora</span><span class="dtag urgent" onclick="editDate(event,this)">15/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-4-4"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Avaliação do piloto</span><span class="dtag urgent" onclick="editDate(event,this)">15/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row" id="st-maq-4-5"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Estabilização e rotina</span><span class="dtag week" onclick="editDate(event,this)">22/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Levantamento das peças críticas</span></div>
+          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Contagem física das peças</span><span class="dtag future" onclick="editDate(event,this)">29/06</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Conferência estoque x sistema</span><span class="dtag future" onclick="editDate(event,this)">31/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Lançamento de divergências</span><span class="dtag future" onclick="editDate(event,this)">31/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Formalizar rotina periódica do Vitor</span><span class="dtag future" onclick="editDate(event,this)">31/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -563,7 +568,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
   <div class="roadmap">
     <div class="rm-title">Roadmap PSG Máquinas</div>
-    <div class="rm-item"><span class="rm-per">Mai–Jun 2026</span><span class="badge b-am">Em andamento</span><span>Treinamento + Piloto + Reuniões</span></div>
+    <div class="rm-item"><span class="rm-per">Jun–Jul 2026</span><span class="badge b-am">Em andamento</span><span>Análise de máquinas + Estoque de peças</span></div>
     <div class="rm-item"><span class="rm-per">Ago–Nov 2026</span><span class="badge b-bl">Planejado</span><span>WPO — organização do ambiente</span></div>
     <div class="rm-item"><span class="rm-per">Nov 2026–Abr 2027</span><span class="badge b-bl">Planejado</span><span>Procedimentos e manuais</span></div>
   </div>
@@ -624,15 +629,15 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 <div class="tab" id="tab-psg-proj">
   <div class="tab-h">🗂️ Projetos PSG<button class="btn-novo-proj" onclick="openNovoProj('psg-proj')">＋ Novo projeto</button></div>
   <div class="metrics">
-    <div class="metric"><div class="mv" style="color:var(--am)">2</div><div class="ml">Em andamento</div></div>
-    <div class="metric"><div class="mv" style="color:var(--gy)">1</div><div class="ml">Em pausa</div></div>
-    <div class="metric"><div class="mv" style="color:var(--gr)">0</div><div class="ml">Concluídos</div></div>
+    <div class="metric"><div class="mv" style="color:var(--gr)">1</div><div class="ml">Quase pronto</div></div>
+    <div class="metric"><div class="mv" style="color:var(--am)">1</div><div class="ml">Em andamento</div></div>
+    <div class="metric"><div class="mv" style="color:var(--gy)">0</div><div class="ml">Bloqueado</div></div>
   </div>
 
   <div class="proj-card">
     <div class="proj-hdr">
       <span class="proj-name">Automação de processos de RH</span>
-      <span class="badge b-am">Em andamento</span>
+      <span class="badge b-gr">Aguardando validação</span>
     </div>
     <div class="proj-body">
       <div class="tg">
@@ -640,10 +645,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
           <span class="tg-ar">▶</span>
           <span class="tg-title">Esboço e requisitos</span>
           <span style="font-size:11px;color:var(--mu)">Kauê</span>
-          <span class="dtag week" onclick="editDate(event,this)">16/05</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Levantamento de requisitos com Leandro</span><span class="dtag week" onclick="editDate(event,this)">16/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Levantamento de requisitos com Leandro</span></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -652,14 +656,16 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
           <span class="tg-ar">▶</span>
           <span class="tg-title">Módulos do aplicativo</span>
           <span style="font-size:11px;color:var(--mu)">Kauê</span>
-          <span class="dtag indef" onclick="editDate(event,this)">Indeterminada</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Controle de férias</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Controle de pagamentos</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Controle de comissões</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Controle de férias</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Controle de pagamentos</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Controle de comissões</span></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
+      </div>
+      <div style="background:var(--gr-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--gr);margin-bottom:10px">
+        ⏳ Aguardando validação do Leandro
       </div>
       <button class="btn-add" onclick="addTaskGroup(this,'psg-proj')">＋ Adicionar tarefa</button>
     </div>
@@ -676,10 +682,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
           <span class="tg-ar">▶</span>
           <span class="tg-title">Esboço e requisitos</span>
           <span style="font-size:11px;color:var(--mu)">Kauê</span>
-          <span class="dtag future" onclick="editDate(event,this)">23/05</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Levantamento de requisitos</span><span class="dtag future" onclick="editDate(event,this)">23/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Levantamento de requisitos</span></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -688,12 +693,24 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
           <span class="tg-ar">▶</span>
           <span class="tg-title">Funcionalidades</span>
           <span style="font-size:11px;color:var(--mu)">Kauê</span>
-          <span class="dtag future" onclick="editDate(event,this)">29/05</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Montagem de layouts de produção do BOPP nas máquinas grandes</span><span class="dtag future" onclick="editDate(event,this)">29/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Programação da fila de produção — máquinas grandes</span><span class="dtag future" onclick="editDate(event,this)">29/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Programação da fila de produção — máquinas pequenas</span><span class="dtag future" onclick="editDate(event,this)">29/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Montagem de layouts de produção do BOPP nas máquinas grandes</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Programação da fila de produção — máquinas grandes</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Programação da fila de produção — máquinas pequenas</span></div>
+          <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
+        </div>
+      </div>
+      <div class="tg">
+        <div class="tg-hdr" onclick="toggleTg(this)">
+          <span class="tg-ar">▶</span>
+          <span class="tg-title">Testes e implementação</span>
+          <span style="font-size:11px;color:var(--mu)">Kauê</span>
+          <span class="dtag future" onclick="editDate(event,this)">14/07</span>
+        </div>
+        <div class="tg-body open">
+          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Rodar testes de validação</span><span class="dtag future" onclick="editDate(event,this)">14/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Implementação em produção</span><span class="dtag future" onclick="editDate(event,this)">14/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -706,29 +723,29 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 <div class="tab" id="tab-dom">
   <div class="tab-h">⚙️ Projetos — Dominus<button class="btn-novo-proj" onclick="openNovoProj('dom')">＋ Novo projeto</button></div>
   <div class="metrics">
-    <div class="metric"><div class="mv" style="color:var(--am)">1</div><div class="ml">Ativos</div></div>
-    <div class="metric"><div class="mv" style="color:var(--gy)">1</div><div class="ml">Standby</div></div>
-    <div class="metric"><div class="mv" style="color:var(--rd)">1</div><div class="ml">Bloqueado</div></div>
+    <div class="metric"><div class="mv" style="color:var(--am)">4</div><div class="ml">Em andamento</div></div>
+    <div class="metric"><div class="mv" style="color:var(--gy)">0</div><div class="ml">Standby</div></div>
+    <div class="metric"><div class="mv" style="color:var(--rd)">0</div><div class="ml">Bloqueado</div></div>
   </div>
 
   <div class="proj-card">
     <div class="proj-hdr">
-      <span class="proj-name">Treinamento Felipe</span>
-      <span class="badge b-gr">Quase concluído</span>
+      <span class="proj-name">Treinamento Emanuel</span>
+      <span class="badge b-am">Em andamento</span>
     </div>
     <div class="proj-body">
       <div class="tg">
         <div class="tg-hdr" onclick="toggleTg(this)">
           <span class="tg-ar">▶</span>
           <span class="tg-title">Treinamento</span>
-          <span style="font-size:11px;color:var(--mu)">Consultor + Felipe</span>
-          <span class="dtag future" onclick="editDate(event,this)">29/05</span>
+          <span style="font-size:11px;color:var(--mu)">Consultor + Emanuel</span>
+          <span class="dtag future" onclick="editDate(event,this)">14/07</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Programação diária (Felipe opera, Pablo setup)</span></div>
-          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Programação semanal</span><span class="dtag future" onclick="editDate(event,this)">29/05</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Planejamento do molde inteiro</span><span class="dtag future" onclick="editDate(event,this)">26/06</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Delegar e acompanhar</span><span class="dtag future" onclick="editDate(event,this)">26/06</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Programação diária</span></div>
+          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Programação semanal</span><span class="dtag future" onclick="editDate(event,this)">30/06</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Planejamento do molde inteiro</span></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Delegar e acompanhar atividades</span><span class="dtag future" onclick="editDate(event,this)">31/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -736,25 +753,24 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
     </div>
   </div>
 
-  <div class="proj-card standby">
+  <div class="proj-card">
     <div class="proj-hdr">
-      <span class="proj-name">Procedimentos Wellington</span>
-      <span class="badge b-gy">Standby</span>
+      <span class="proj-name">Procedimentos</span>
+      <span class="badge b-am">Em andamento</span>
     </div>
     <div class="proj-body">
-      <div style="background:var(--gy-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--mu);margin-bottom:10px">
-        ⏸ Standby até contratação do novo líder
-      </div>
       <div class="tg">
         <div class="tg-hdr" onclick="toggleTg(this)">
           <span class="tg-ar">▶</span>
           <span class="tg-title">4 processos a procedimentar</span>
+          <span style="font-size:11px;color:var(--mu)">Kauê + Emanuel</span>
+          <span class="dtag future" onclick="editDate(event,this)">07/07</span>
         </div>
         <div class="tg-body open">
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Eletroerosão</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Montagem/desmontagem de moldes complexos</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Acabamento de polimento</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Try-out do molde</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Eletroerosão</span><span style="font-size:11px;color:var(--mu)">Kauê</span><span class="dtag future" onclick="editDate(event,this)">07/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Montagem/desmontagem de moldes complexos</span><span style="font-size:11px;color:var(--mu)">Emanuel</span><span class="dtag future" onclick="editDate(event,this)">07/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Acabamento de polimento</span><span style="font-size:11px;color:var(--mu)">Emanuel</span><span class="dtag future" onclick="editDate(event,this)">07/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Try-out do molde</span><span style="font-size:11px;color:var(--mu)">Emanuel</span><span class="dtag future" onclick="editDate(event,this)">07/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -762,26 +778,49 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
     </div>
   </div>
 
-  <div class="proj-card blk-card">
+  <div class="proj-card">
     <div class="proj-hdr">
       <span class="proj-name">Controle de velocidade das máquinas</span>
-      <span class="badge b-rd">Bloqueado</span>
+      <span class="badge b-am">Em andamento</span>
     </div>
     <div class="proj-body">
-      <div style="background:var(--rd-bg);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--rd);margin-bottom:10px">
-        🚫 Aguardando definição de responsável
-      </div>
       <div class="tg">
         <div class="tg-hdr" onclick="toggleTg(this)">
           <span class="tg-ar">▶</span>
-          <span class="tg-title">Aguardando definição de responsável</span>
-          <span style="font-size:11px;color:var(--mu)">Consultor + Thiago</span>
-          <span class="dtag future" onclick="editDate(event,this)">29/05</span>
+          <span class="tg-title">Análise e ajuste de velocidade</span>
+          <span style="font-size:11px;color:var(--mu)">Kauê</span>
+          <span class="dtag future" onclick="editDate(event,this)">07/07</span>
         </div>
         <div class="tg-body open">
           <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Tabela de velocidades e checklist criados</span></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Coletar dados de base</span><span class="dtag future" onclick="editDate(event,this)">03/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
-          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Analisar quebras x velocidade</span><span class="dtag future" onclick="editDate(event,this)">17/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Coleta de dados de base</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Análise de quebras x velocidade</span></div>
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Aumento de velocidade aplicado</span></div>
+          <div class="st-row"><span class="st-ic ic-act" onclick="toggleSt(this)">→</span><span class="st-text">Nova coleta de dados com nova velocidade</span><span class="dtag future" onclick="editDate(event,this)">07/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Avaliação do aumento de velocidade</span><span class="dtag future" onclick="editDate(event,this)">07/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
+          <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addTaskGroup(this,'dom')">＋ Adicionar tarefa</button>
+    </div>
+  </div>
+
+  <div class="proj-card">
+    <div class="proj-hdr">
+      <span class="proj-name">Reuniões de gestão</span>
+      <span class="badge b-am">Em andamento</span>
+    </div>
+    <div class="proj-body">
+      <div class="tg">
+        <div class="tg-hdr" onclick="toggleTg(this)">
+          <span class="tg-ar">▶</span>
+          <span class="tg-title">Implementação das reuniões</span>
+          <span style="font-size:11px;color:var(--mu)">Kauê</span>
+          <span class="dtag future" onclick="editDate(event,this)">14/07</span>
+        </div>
+        <div class="tg-body open">
+          <div class="st-row done"><span class="st-ic ic-done" onclick="toggleSt(this)">✓</span><span class="st-text">Reuniões semanais iniciadas</span></div>
+          <div class="st-row"><span class="st-ic ic-plan" onclick="toggleSt(this)">○</span><span class="st-text">Implementar reuniões diárias</span><span class="dtag future" onclick="editDate(event,this)">14/07</span><button class="btn-ic del" onclick="deleteSt(this)">🗑</button></div>
           <button class="btn-add" onclick="addSubtask(this)">＋ Adicionar subtarefa</button>
         </div>
       </div>
@@ -791,9 +830,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
   <div class="roadmap">
     <div class="rm-title">Roadmap Dominus</div>
-    <div class="rm-item"><span class="rm-per">Semanas 1–3</span><span class="badge b-gr">Concluído</span><span>Investigação</span></div>
-    <div class="rm-item"><span class="rm-per">Semanas 4–7</span><span class="badge b-gy">Standby</span><span>Procedimentos (aguardando novo líder)</span></div>
-    <div class="rm-item"><span class="rm-per">Semanas 8–9</span><span class="badge b-bl">Planejado</span><span>Auditorias</span></div>
+    <div class="rm-item"><span class="rm-per">Jun–Jul 2026</span><span class="badge b-am">Em andamento</span><span>Treinamento Emanuel + Procedimentos + Velocidade + Reuniões</span></div>
+    <div class="rm-item"><span class="rm-per">Jul–Ago 2026</span><span class="badge b-bl">Planejado</span><span>Auditorias e acompanhamento</span></div>
   </div>
 </div>
 
@@ -842,7 +880,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 
 <script>
 // ===== STATE =====
-const SK = 'opx-state-v2';
+const SK = 'opx-state-v3';
 let S = {tasks:[], deleted:{}, recurring:{}, stDone:{}, collapsed:{}, lastWeekStart:'', weeklyReminderDue:true};
 
 function ls(){try{const d=JSON.parse(localStorage.getItem(SK));if(d)S=Object.assign(S,d);}catch(e){}}
@@ -850,11 +888,11 @@ function ss(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
 
 // ===== INITIAL TASKS =====
 const INIT_TASKS = [
-  {id:'t1',text:'Avaliar qualidade das bobinas devolvidas por reclamação do cliente',project:'PSG BOPP',responsible:'Kauê',date:'2026-05-13',dateStr:'13/05',done:false,doneAt:null},
-  {id:'t2',text:'Contagem física de peças críticas de importação',project:'PSG Máquinas',responsible:'Vitor',date:'2026-05-15',dateStr:'15/05',done:false,doneAt:null},
-  {id:'t3',text:'Piloto plano de produção (torno e fresadora)',project:'PSG Máquinas',responsible:'Vitor',date:'2026-05-15',dateStr:'15/05',done:false,doneAt:null},
-  {id:'t4',text:'Esboço do projeto de automação de RH',project:'PSG Projetos',responsible:'Kauê',date:'2026-05-16',dateStr:'16/05',done:false,doneAt:null},
-  {id:'t5',text:'Esboço do projeto do agente de PCP',project:'PSG Projetos',responsible:'Kauê',date:'2026-05-23',dateStr:'23/05',done:false,doneAt:null},
+  {id:'t6',text:'Contagem física de peças críticas',project:'PSG Máquinas',responsible:'Vitor',date:'2026-06-29',dateStr:'29/06',done:false,doneAt:null},
+  {id:'t7',text:'Programação semanal — Emanuel',project:'Dominus',responsible:'Emanuel',date:'2026-06-30',dateStr:'30/06',done:false,doneAt:null},
+  {id:'t8',text:'Nova coleta de dados com nova velocidade',project:'Dominus',responsible:'Kauê',date:'2026-07-07',dateStr:'07/07',done:false,doneAt:null},
+  {id:'t9',text:'Procedimentos Emanuel (3 processos restantes)',project:'Dominus',responsible:'Emanuel',date:'2026-07-07',dateStr:'07/07',done:false,doneAt:null},
+  {id:'t10',text:'Análise de máquinas para revisão e peças',project:'PSG Máquinas',responsible:'Kauê',date:'2026-07-08',dateStr:'08/07',done:false,doneAt:null},
 ];
 
 function getTasks(){
